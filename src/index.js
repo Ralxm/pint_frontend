@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-//import MoviesList from './Components/Movies3';
-import MainPage from './File/MainPage'
+import MainPage from './page/MainPage'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { HashRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('raiz'));
 root.render(
-    <HashRouter>
-        <MainPage></MainPage>
-    </HashRouter>
+    <StrictMode>
+        <HashRouter>
+            <MainPage></MainPage>
+        </HashRouter>
+    </StrictMode>
+    
 )
 
-ReactDOM.render(<MainPage />, document.getElementById('raiz'));
+//ReactDOM.render(<MainPage />, document.getElementById('raiz'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

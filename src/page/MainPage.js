@@ -3,13 +3,12 @@ import LoginInput from "./Login";
 import Footer from './Footer';
 import React from 'react'
 import ImagemLogin from "./ImagemLogin";
-import Filtro from './mainpage/Filtro'
-import PostBox from "./mainpage/Posts";
-import * as data from './mainpage/posts.json'
+import Filtro from './Filtro'
+import PostBox from "./Posts";
+import * as data from './posts.json'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { HashRouter } from "react-router-dom";
-import Profile from "./mainpage/Profile";
-import Notifications from "./mainpage/Notifications";
+import Profile from "./Profile";
+import Notifications from "./Notifications";
 
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);

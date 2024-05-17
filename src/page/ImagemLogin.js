@@ -1,7 +1,6 @@
 import React from 'react'
 import './index.css'
 
-
 class ImagemLogin extends React.Component{
     render(){
         return(
