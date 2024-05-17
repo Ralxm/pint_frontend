@@ -1,0 +1,169 @@
+{
+    "saude":[
+        {
+            "id": "saude-1",
+            "value": "Hospital"
+        },
+        {
+            "id": "saude-2",
+            "value": "Casa de saúde"
+        },
+        {
+            "id": "saude-3",
+            "value": "Clínica"
+        },
+        {
+            "id": "saude-4",
+            "value": "Fisioterapia"
+        },
+        {
+            "id": "saude-5",
+            "value": "Clínica Dentária"
+        },
+        {
+            "id": "saude-6",
+            "value": "Oftalmologista"
+        },
+        {
+            "id": "saude-7",
+            "value": "Dermatologista"
+        }
+    ],
+    "desporto":[
+        {
+            "id": "desporto-1",
+            "value": "Futebol"
+        },
+        {
+            "id": "desporto-2",
+            "value": "Andebol"
+        },
+        {
+            "id": "desporto-3",
+            "value": "Basquetebol"
+        },
+        {
+            "id": "desporto-4",
+            "value": "Natação"
+        },
+        {
+            "id": "desporto-5",
+            "value": "Corrida"
+        },
+        {
+            "id": "desporto-6",
+            "value": "Golf"
+        },
+        {
+            "id": "desporto-7",
+            "value": "Ginásio"
+        }
+    ],
+    "formaçao":[
+        {
+            "id": "formaçao-1",
+            "value": "Escola de condução"
+        },
+        {
+            "id": "formaçao-2",
+            "value": "Infantário"
+        },
+        {
+            "id": "formaçao-3",
+            "value": "Escola básica"
+        },
+        {
+            "id": "formaçao-4",
+            "value": "Escola secundária"
+        },
+        {
+            "id": "formaçao-5",
+            "value": "Ensino superior"
+        }
+    ],
+    "restauraçao":[
+        {
+            "id": "restauraçao-1",
+            "value": "Restaurantes"
+        },
+        {
+            "id": "restauraçao-2",
+            "value": "Bares"
+        },
+        {
+            "id": "restauraçao-3",
+            "value": "Cafés"
+        },
+        {
+            "id": "restauraçao-4",
+            "value": "Tascas"
+        }
+    ],
+    "habitaçao":[
+        {
+            "id": "habitaçao-1",
+            "value": "Arrendar casa"
+        },
+        {
+            "id": "habitaçao-2",
+            "value": "Comprar casas"
+        },
+        {
+            "id": "habitaçao-3",
+            "value": "Imobiliária"
+        },
+        {
+            "id": "habitaçao-4",
+            "value": "Hoteis"
+        },
+        {
+            "id": "habitaçao-5",
+            "value": "Moteis"
+        }
+    ],
+    "transportes":[
+        {
+            "id": "transportes-1",
+            "value": "Autocarro"
+        },
+        {
+            "id": "transportes-2",
+            "value": "Metro"
+        },
+        {
+            "id": "transportes-3",
+            "value": "Comboio"
+        },
+        {
+            "id": "transportes-4",
+            "value": "Elétrico"
+        },
+        {
+            "id": "transportes-5",
+            "value": "Boleia"
+        },
+        {
+            "id": "transportes-6",
+            "value": "Comboio Turístico"
+        }
+        
+    ],
+    "lazer":[
+        {
+            "id": "lazer-1",
+            "value": "Parques"
+        },
+        {
+            "id": "lazer-2",
+            "value": "Piscinas"
+        },
+        {
+            "id": "lazer-3",
+            "value": "Ciclovia"
+        },
+        {
+            "id": "lazer-4",
+            "value": "Shoppings"
+        }
+    ]
+}
