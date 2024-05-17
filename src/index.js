@@ -8,12 +8,9 @@ import { HashRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('raiz'));
 root.render(
-    <StrictMode>
         <HashRouter>
             <MainPage></MainPage>
-        </HashRouter>
-    </StrictMode>
-    
+        </HashRouter>    
 )
 
 //ReactDOM.render(<MainPage />, document.getElementById('raiz'));

@@ -19,9 +19,9 @@ class MainPage extends React.Component {
             <div>
                 <NavigationBar></NavigationBar> 
                     <Routes>
-                        <Route exact path='/' element={<LoginPage></LoginPage>}>
+                        <Route path='/' element={<LoginPage></LoginPage>}>
                         </Route>
-                        <Route exact path='/mainpage' element={<PaginaPrincipal></PaginaPrincipal>}>
+                        <Route path='/mainpage' element={<PaginaPrincipal></PaginaPrincipal>}>
                         </Route>
                     </Routes>
                 <Footer></Footer>
