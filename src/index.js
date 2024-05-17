@@ -11,12 +11,6 @@ const router = createHashRouter([
     {
         path:"/*",
         element:<MainPage></MainPage>,
-        children: [
-            {
-                path: "mainpage",
-                element: <PaginaPrincipal />
-            }
-        ]
     }
 ]);
 

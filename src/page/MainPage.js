@@ -20,7 +20,7 @@ export default function MainPage() {
                     <Routes>
                         <Route path='/' element={<LoginPage></LoginPage>}>
                         </Route>
-                        <Route path='/mainpage' element={<PaginaPrincipal></PaginaPrincipal>}>
+                        <Route path='#/mainpage' element={<PaginaPrincipal></PaginaPrincipal>}>
                         </Route>
                     </Routes>
                 <Footer></Footer>
