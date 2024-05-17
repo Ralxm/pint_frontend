@@ -13,8 +13,7 @@ import Notifications from "./Notifications";
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);
 
-class MainPage extends React.Component {
-    render() {
+export default function MainPage() {
         return (
             <div>
                 <NavigationBar></NavigationBar> 
@@ -27,7 +26,6 @@ class MainPage extends React.Component {
                 <Footer></Footer>
             </div>
         )
-    }
 }
 
 function LoginPage() {
@@ -63,5 +61,3 @@ function PaginaChats(){
         </div>
     )
 }
-
-export default MainPage

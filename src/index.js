@@ -4,13 +4,20 @@ import './index.css';
 import MainPage from './page/MainPage'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
-import { BrowserRouter } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(document.getElementById('raiz'));
-root.render(
-        <BrowserRouter>
-            <MainPage></MainPage>
-        </BrowserRouter>    
+const router = createHashRouter([
+    {
+        path:"/*",
+        element:<MainPage></MainPage>
+    }
+]);
+
+ReactDOM.createRoot(document.getElementById('raiz')).render(
+    <React.StrictMode>
+        <RouterProvider router={router}></RouterProvider>
+    </React.StrictMode>
+         
 )
 
 //ReactDOM.render(<MainPage />, document.getElementById('raiz'));
