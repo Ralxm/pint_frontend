@@ -6,7 +6,7 @@ import ImagemLogin from "./ImagemLogin";
 import Filtro from './Filtro'
 import PostBox from "./Posts";
 import * as data from './posts.json'
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Profile from "./Profile";
 import Notifications from "./Notifications";
 

@@ -9,7 +9,13 @@ import { createHashRouter, RouterProvider } from 'react-router-dom';
 const router = createHashRouter([
     {
         path:"/*",
-        element:<MainPage></MainPage>
+        element:<MainPage></MainPage>,
+        children: [
+            {
+                path: "mainpage",
+                element: <PaginaPrincipal />
+            }
+        ]
     }
 ]);
 
