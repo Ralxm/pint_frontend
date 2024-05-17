@@ -18,18 +18,13 @@ class MainPage extends React.Component {
     render() {
         return (
             <div>
-                <NavigationBar></NavigationBar>
-                <HashRouter>   
+                <NavigationBar></NavigationBar> 
                     <Routes>
                         <Route exact path='/' element={<LoginPage></LoginPage>}>
                         </Route>
                         <Route exact path='/mainpage' element={<PaginaPrincipal></PaginaPrincipal>}>
                         </Route>
-                        <Route exact path='/chats' element={<PaginaChats></PaginaChats>}>
-
-                        </Route>
                     </Routes>
-                </HashRouter>
                 <Footer></Footer>
             </div>
         )

@@ -1,11 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 //import MoviesList from './Components/Movies3';
 import MainPage from './File/MainPage'
 import reportWebVitals from './reportWebVitals';
-import { HashRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
+import { HashRouter } from 'react-router-dom';
+
+const root = ReactDOM.createRoot(document.getElementById('raiz'));
+root.render(
+    <HashRouter>
+        <MainPage></MainPage>
+    </HashRouter>
+)
 
 ReactDOM.render(<MainPage />, document.getElementById('raiz'));
 
