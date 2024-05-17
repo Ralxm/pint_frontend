@@ -7,6 +7,7 @@ import Filtro from './mainpage/Filtro'
 import PostBox from "./mainpage/Posts";
 import * as data from './mainpage/posts.json'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import Profile from "./mainpage/Profile";
 import Notifications from "./mainpage/Notifications";
 
@@ -18,7 +19,7 @@ class MainPage extends React.Component {
         return (
             <div>
                 <NavigationBar></NavigationBar>
-                <Router>   
+                <HashRouter>   
                     <Routes>
                         <Route exact path='/' element={<LoginPage></LoginPage>}>
                         </Route>
@@ -28,7 +29,7 @@ class MainPage extends React.Component {
 
                         </Route>
                     </Routes>
-                </Router>
+                </HashRouter>
                 <Footer></Footer>
             </div>
         )

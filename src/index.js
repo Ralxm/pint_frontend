@@ -4,14 +4,8 @@ import './index.css';
 //import MoviesList from './Components/Movies3';
 import MainPage from './File/MainPage'
 import reportWebVitals from './reportWebVitals';
+import { HashRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
-
-/*const root = ReactDOM.createRoot(document.getElementById('raiz'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode> 
-);*/
 
 ReactDOM.render(<MainPage />, document.getElementById('raiz'));
 
