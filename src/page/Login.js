@@ -15,7 +15,7 @@ class LoginInput extends React.Component {
                     <input type='password' id='password-login' class='login-box' placeholder='  password'></input>
                 </div>
                 <div className='login-button-div'>
-                    <input type='submit' id='login' class='login-button' value="Entrar" onClick={() => window.location = 'mainpage'}></input>
+                    <input type='submit' id='login' class='login-button' value="Entrar" onClick={() => window.location = '#/mainpage'}></input>
                 </div>
                 <div className='login-separador'>
                     <div className='separador'>
