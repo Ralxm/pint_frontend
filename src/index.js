@@ -4,13 +4,13 @@ import './index.css';
 import MainPage from './page/MainPage'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('raiz'));
 root.render(
-        <HashRouter>
+        <BrowserRouter>
             <MainPage></MainPage>
-        </HashRouter>    
+        </BrowserRouter>    
 )
 
 //ReactDOM.render(<MainPage />, document.getElementById('raiz'));
