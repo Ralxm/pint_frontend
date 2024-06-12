@@ -35,7 +35,7 @@ export default function Post({info}) {
                     <a>{info.texto}</a>
                 </div>
 
-                <div className='row col-12'>
+                <div className='row col-12 imagem-post-info'>
                     <img src={info.imagem}/>
                 </div>
 

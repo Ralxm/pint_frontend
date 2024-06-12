@@ -370,12 +370,12 @@ footer{
 }
 
 .post-box{
-    max-height: 80vh;
+    min-height: 80vh;
     display: flex;
 }
 
 .main-post-box{
-    max-height: 80vh;
+    min-height: 80vh;
 }
 
 .post-main-info{
@@ -397,4 +397,8 @@ footer{
 
 .post-text-info{
     margin-top: 20px;
+}
+
+.imagem-post-info{
+    max-height: 50vh;
 }
