@@ -35,7 +35,7 @@ export default function Post({info}) {
                     <a>{info.texto}</a>
                 </div>
 
-                <div className='col-12' style={{maxWidth: 100, maxHeight: "60vh"}}>
+                <div className='row col-12'>
                     <img src={info.imagem}/>
                 </div>
 
