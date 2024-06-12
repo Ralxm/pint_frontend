@@ -6,12 +6,17 @@ import ImagemLogin from "../LoginComponents/ImagemLogin";
 import Filtro from '../MainPageComponents/Filtro'
 import PostBox from "../MainPageComponents/Posts";
 import * as data from './posts.json'
+import * as dummy from './post-dummy.json'
 import { Route, Routes } from "react-router-dom";
 import Profile from "../MainPageComponents/Profile";
 import Notifications from "../MainPageComponents/Notifications";
+import Post from "../PostComponents/Post"
 
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);
+
+const dummyjson = JSON.stringify(dummy);
+const arrdummy = JSON.parse(dummyjson); 
 
 export default function MainPage() {
         return (
@@ -21,6 +26,8 @@ export default function MainPage() {
                         <Route path='/' element={<LoginPage></LoginPage>}>
                         </Route>
                         <Route path='mainpage' element={<PaginaPrincipal></PaginaPrincipal>}>
+                        </Route>
+                        <Route path='post' element={<Publicacao></Publicacao>}>
                         </Route>
                     </Routes>
                 <Footer></Footer>
@@ -54,10 +61,16 @@ function PaginaPrincipal() {
     )
 }
 
-function PaginaChats(){
-    return(
-        <div>
-            asdasd
+function Publicacao(){
+    return (
+        <div className="container-fluid">
+            <div className="row">
+                <Post info={arrdummy}></Post>
+                <div className="col-lg-3 pe-0 g-0">
+                    <Profile></Profile>
+                    <Notifications></Notifications>
+                </div>
+            </div>
         </div>
     )
 }

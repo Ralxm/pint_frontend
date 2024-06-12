@@ -368,3 +368,33 @@ footer{
 .button-rejeitar{
     background-color: #B02A37;
 }
+
+.post-box{
+    max-height: 80vh;
+    display: flex;
+}
+
+.main-post-box{
+    max-height: 80vh;
+}
+
+.post-main-info{
+    display: flex;
+    align-items: center;
+}
+
+.post-main-buttons{
+    display: flex;
+}
+
+.post-box a{
+    font-family: "Poppins"
+}
+
+.post-nav-bar{
+    display: flex;
+}
+
+.post-text-info{
+    margin-top: 20px;
+}
