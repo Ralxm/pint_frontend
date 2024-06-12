@@ -1,14 +1,14 @@
 import NavigationBar from "./Nav";
-import LoginInput from "./Login";
+import LoginInput from "../LoginComponents/Login";
 import Footer from './Footer';
 import React from 'react'
-import ImagemLogin from "./ImagemLogin";
-import Filtro from './Filtro'
-import PostBox from "./Posts";
+import ImagemLogin from "../LoginComponents/ImagemLogin";
+import Filtro from '../MainPageComponents/Filtro'
+import PostBox from "../MainPageComponents/Posts";
 import * as data from './posts.json'
 import { Route, Routes } from "react-router-dom";
-import Profile from "./Profile";
-import Notifications from "./Notifications";
+import Profile from "../MainPageComponents/Profile";
+import Notifications from "../MainPageComponents/Notifications";
 
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);

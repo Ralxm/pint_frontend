@@ -1,5 +1,5 @@
 import React from 'react'
-import './index.css'
+import '../Universal/index.css'
 
 class ImagemLogin extends React.Component{
     render(){
@@ -11,9 +11,8 @@ class ImagemLogin extends React.Component{
     }
 }
 
-
 function Imagem() {
-    return <img src='./imageminicial.png' class='imagem-inicio'></img>
+    return <img src='imageminicial.png' class='imagem-inicio'></img>
 }
 
 export default ImagemLogin

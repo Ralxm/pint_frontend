@@ -1,7 +1,7 @@
 import React from 'react'
-import '../index.css'
+import '../Universal/index.css'
 import SubFiltro from './SubFiltro'
-import * as data from './arr.json'
+import * as data from '../Universal/arr.json'
 
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);
