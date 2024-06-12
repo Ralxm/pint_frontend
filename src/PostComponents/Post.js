@@ -36,7 +36,7 @@ export default function Post({info}) {
                 </div>
 
                 <div className='row col-12 imagem-post-info'>
-                    <img src={info.imagem}/>
+                    <img src={info.imagem} style={{maxHeight: "30vh"}}/>
                 </div>
 
             </div>
