@@ -11,6 +11,8 @@ import { Route, Routes } from "react-router-dom";
 import Profile from "../MainPageComponents/Profile";
 import Notifications from "../MainPageComponents/Notifications";
 import Post from "../PostComponents/Post"
+import SideBar from "../BackOfficeComponents/SideBar";
+import AuditLog from "../BackOfficeComponents/AuditLog"
 
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);
@@ -28,6 +30,8 @@ export default function MainPage() {
                         <Route path='mainpage' element={<PaginaPrincipal></PaginaPrincipal>}>
                         </Route>
                         <Route path='post' element={<Publicacao></Publicacao>}>
+                        </Route>
+                        <Route path='backoffice/*' element={<BackOffice></BackOffice>}>
                         </Route>
                     </Routes>
                 <Footer></Footer>
@@ -71,6 +75,22 @@ function Publicacao(){
                     <Notifications></Notifications>
                 </div>
             </div>
+        </div>
+    )
+}
+
+function BackOffice(){
+    return(
+        <div className="container-fluid" style={{display: "flex"}}>
+                <SideBar></SideBar>
+                <Routes>
+                    <Route path='auditlog' element={<AuditLog></AuditLog>}>
+                    </Route>
+                    <Route path='colaboradores' element={<Publicacao></Publicacao>}>
+                    </Route>
+                    <Route path='cidades' element={<BackOffice></BackOffice>}>
+                    </Route>
+                </Routes>
         </div>
     )
 }
