@@ -13,6 +13,7 @@ import Notifications from "../MainPageComponents/Notifications";
 import Post from "../PostComponents/Post"
 import SideBar from "../BackOfficeComponents/SideBar";
 import AuditLog from "../BackOfficeComponents/AuditLog"
+import BackOffice from "../BackOffice/BackOffice";
 
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);
@@ -79,7 +80,7 @@ function Publicacao(){
     )
 }
 
-function BackOffice(){
+/*function BackOffice(){
     return(
         <div className="container-fluid" style={{display: "flex"}}>
                 <SideBar></SideBar>
@@ -93,4 +94,4 @@ function BackOffice(){
                 </Routes>
         </div>
     )
-}
+}*/
