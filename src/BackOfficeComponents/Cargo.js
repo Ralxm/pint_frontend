@@ -2,29 +2,27 @@ import React, {useState, useEffect} from 'react';
 import '../Universal/index.css';
 import axios from 'axios';
 
-export default function AuditLog(){
+export default function Cargo(){
 
-    const url = "http://localhost:3001/auditlog/list";
+    const url = "http://localhost:3001/cargo/list";
 
-    const [AuditLog, setAuditLog] = useState([]);
+    const [Cargo, setCargo] = useState([]);
     
-    const [LOGID, setLOGID] = useState("");
-    const [IDCONTA, setIDCONTA] = useState("");
-    const [TIPOATIVIDADE, setTIPOATIVIDADE] = useState("");
-    const [DATA, setDATA] = useState("");
+    const [IDCARGO, setIDCARGO] = useState("");
+    const [NOME, setNOME] = useState("");
     const [DESCRICAO, setDESCRICAO] = useState("");
     
     useEffect(() => {
-        document.title = 'Mostrar Audit Log';
-        loadAuditLog();
+        document.title = 'Mostrar Cargos';
+        loadTables();
     }, []);
 
-    function loadAuditLog(){
+    function loadTables(){
         axios.get(url)
         .then(res => {
             if(res.data.success === true){
                 const data = res.data.data;
-                setAuditLog(data);
+                setCargo(data);
             }
             else{
                 alert("Erro Web Service!");
@@ -39,36 +37,28 @@ export default function AuditLog(){
         <div className='col-10' style={{display: 'flex'}}>
             <div className='side-bar col-4' style={{marginLeft: "10px"}}>
                 <div className='col-lg-12 backoffice-option'>
-                    Listagem AuditLogs
+                    Listagem Cargos
                 </div>
                 <div className='col-lg-12 showTable-list'>
-                    <ListAudit></ListAudit>
+                    <ListTables></ListTables>
                 </div>
             </div>
             <div className='side-bar col-4' style={{marginLeft: "10px"}} id={'insertColumn'}>
                 <div className='col-lg-12 backoffice-option'>
-                    Inserir AuditLog
+                    Inserir Cargo
                 </div>
                 <div className='col-lg-12 input-create-thing-big-box'>
                     <div className='input-create-thing'>
                         <div className='input-group'>
-                            <label>ID Conta</label>
-                            <input id='contaid' onChange={(value)=> setIDCONTA(value.target.value)}></input>
-                        </div>
-                        <div className='input-group'>
-                            <label>Tipo Atividade</label>
-                            <input id='tipoatividade' onChange={(value)=> setTIPOATIVIDADE(value.target.value)}></input>
-                        </div>
-                        <div className='input-group'>
-                            <label>Timestamp</label>
-                            <input id='timestamp' onChange={(value)=> setDATA(value.target.value)} type={'date'}></input>
+                            <label>Nome</label>
+                            <input id='contaid' onChange={(value)=> setNOME(value.target.value)}></input>
                         </div>
                         <div className='input-group'>
                             <label>Descrição</label>
-                            <input id='descricao' onChange={(value)=> setDESCRICAO(value.target.value)}></input>
+                            <input id='contaid' onChange={(value)=> setDESCRICAO(value.target.value)}></input>
                         </div>
                         <div>
-                            <button onClick={criarAuditLog} className='btn btn-info'>Inserir</button>
+                            <button onClick={criarColuna} className='btn btn-info'>Inserir</button>
                         </div>
                     </div>
                     
@@ -77,30 +67,22 @@ export default function AuditLog(){
             <div className='side-bar col-4' style={{marginLeft: "10px", display: 'none'}} id={'editColumn'}>
                 <div className='col-lg-12 backoffice-option'>
                     <div className='edit-header'>
-                        Editar AuditLog
+                        Editar Colaborador
                         <button onClick={FecharEditar} className='btn btn-secondary fechar-button'>Fechar</button>
                     </div>
                 </div>
                 <div className='col-lg-12 input-create-thing-big-box'>
                     <div className='input-create-thing'>
-                        <div className='input-group'>
-                            <label>ID Conta</label>
-                            <input id='contaid' value={IDCONTA} onChange={(value)=> setIDCONTA(value.target.value)}></input>
-                        </div>
-                        <div className='input-group'>
-                            <label>Tipo Atividade</label>
-                            <input id='tipoatividade' value={TIPOATIVIDADE} onChange={(value)=> setTIPOATIVIDADE(value.target.value)}></input>
-                        </div>
-                        <div className='input-group'>
-                            <label>Timestamp</label>
-                            <input id='timestamp' value={DATA} onChange={(value)=> setDATA(value.target.value)} type={'date'}></input>
+                    <div className='input-group'>
+                            <label>Nome</label>
+                            <input id='contaid' value={NOME} onChange={(value)=> setNOME(value.target.value)}></input>
                         </div>
                         <div className='input-group'>
                             <label>Descrição</label>
-                            <input id='descricao' value={DESCRICAO} onChange={(value)=> setDESCRICAO(value.target.value)}></input>
+                            <input id='contaid' value={DESCRICAO} onChange={(value)=> setDESCRICAO(value.target.value)}></input>
                         </div>
                         <div>
-                            <button onClick={editarAuditLog} className='btn btn-info'>Editar</button>
+                            <button onClick={editarColuna} className='btn btn-info'>Editar</button>
                         </div>
                     </div>
                     
@@ -109,20 +91,17 @@ export default function AuditLog(){
         </div>
     )
 
-
-    function criarAuditLog(){
-        const urlCriar = 'http://localhost:3001/auditlog/create'
+    function criarColuna(){
+        const urlCriar = 'http://localhost:3001/cargo/create'
         const datapost = {
-            IDCONTA: IDCONTA,
-            TIPOATIVIDADE: TIPOATIVIDADE,
-            DATA: DATA,
-            DESCRICAO: DESCRICAO
+            NOME: NOME,
+            DESCRICAO: DESCRICAO,
         }
         axios.post(urlCriar, datapost)
         .then(res => {
             if(res.data.success === true){
                 alert(res.data.message);
-                loadAuditLog();
+                loadTables();
             }
             else{
                 alert(res.data.message);
@@ -133,19 +112,17 @@ export default function AuditLog(){
         })
     }
 
-    function editarAuditLog(){
-        const urlEditar = 'http://localhost:3001/auditlog/update/' + LOGID;
+    function editarColuna(){
+        const urlEditar = 'http://localhost:3001/cargo/update/' + IDCARGO;
         const datapost = {
-            IDCONTA: IDCONTA,
-            TIPOATIVIDADE: TIPOATIVIDADE,
-            DATA: DATA,
-            DESCRICAO: DESCRICAO
+            NOME: NOME,
+            DESCRICAO: DESCRICAO,
         }
         axios.put(urlEditar, datapost)
         .then(res =>{
             if(res.data.success === true){
-                alert('AuditLog editado com sucesso');
-                loadAuditLog();
+                alert('Cargo editada com sucesso');
+                loadTables();
             }
             else{
                 alert('Erro');
@@ -156,23 +133,19 @@ export default function AuditLog(){
         })
     }
 
-    function ListAudit(){
-        return AuditLog.map((data, index) => {
+    function ListTables(){
+        return Cargo.map((data, index) => {
             return(
                 <div className='col-12 showTable'>
                     <div className='showTableText'>
-                        <a>Log ID: {data.LOGID}</a>
+                        <a>ID Cargo: {data.IDCARGO}</a>
                         <br></br>
-                        <a>ID Conta: {data.IDCONTA}</a>
-                        <br></br>
-                        <a>Tipo Atividade: {data.TIPOATIVIDADE}</a>
-                        <br></br>
-                        <a>Timestamp: {data.DATA}</a>
+                        <a>Nome: {data.NOME}</a>
                         <br></br>
                         <a>Descrição: {data.DESCRICAO}</a>
                     </div>
                     <div className='showTableButtons'>
-                        <button className='btn btn-info' onClick={() => EditarColuna(data)}>Editar</button>
+                        <button className='btn btn-info' onClick={() => inserirEditarColuna(data)}>Editar</button>
                         <button className='btn btn-danger' onClick={() => ApagarColuna(data)}>Apagar</button>
                     </div>
                 </div>
@@ -181,14 +154,13 @@ export default function AuditLog(){
     }
 
     function ApagarColuna(data){
-        setLOGID(data.LOGID);
-        let idlog = data.LOGID;
-        const urlApagar = 'http://localhost:3001/auditlog/delete/' + data.LOGID;
+        setIDCARGO(data.IDCARGO);
+        const urlApagar = 'http://localhost:3001/cargo/delete/' + data.IDCARGO;
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){
-                alert('Audit log com ID: ' + {idlog} + ' apagado com sucesso');
-                loadAuditLog();
+                alert('Audit log com ID: ' + {IDCARGO} + ' apagado com sucesso');
+                loadTables();
             }
         })
         .catch(error => {
@@ -196,12 +168,10 @@ export default function AuditLog(){
         });
     }
 
-    function EditarColuna(data){
-        setLOGID(data.LOGID);
-        setIDCONTA(data.IDCONTA);
-        setTIPOATIVIDADE(data.TIPOATIVIDADE);
-        setDATA(data.DATA);
-        setDESCRICAO(data.DESCRICAO);
+    function inserirEditarColuna(data){
+        setIDCARGO(data.IDCARGO)
+        setNOME(data.NOME)
+        setDESCRICAO(data.DESCRICAO)
 
         document.getElementById('editColumn').style.display = 'block';
         document.getElementById('insertColumn').style.display = 'none';

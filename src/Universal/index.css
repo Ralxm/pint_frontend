@@ -421,8 +421,7 @@ footer{
     justify-content: center;
 }
 
-.auditlog-list{
-    border: 1px solid gray;
+.showTable-list{
     border-radius: 5px;
     height: 70vh;
     overflow-y: scroll;
@@ -449,6 +448,7 @@ footer{
 }
 
 .input-create-thing{
+    height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -473,6 +473,13 @@ footer{
     border-color: #00B3FF;
 }
 
+.input-group-select{
+    padding: 5px;
+    border-radius: 10px 10px 10px 10px;
+    border-color: #00B3FF;
+    background-color: white;
+}
+
 .edit-header {
     display: flex;
     justify-content: space-between;
@@ -481,4 +488,17 @@ footer{
 
 .fechar-button {
     margin-left: auto;
+}
+
+.input-create-thing-big-box{
+    overflow-y: scroll;
+}
+
+.form-check-label{
+    margin-right: 10px;
+}
+
+.input-group-special{
+    width: 90%;
+    display: none;
 }

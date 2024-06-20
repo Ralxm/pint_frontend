@@ -10,11 +10,20 @@ export default function SideBar(){
             <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/colaboradores"}>
                 Colaboradores
             </div>
+            <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/cargos"}>
+                Cargos
+            </div>
             <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/cidades"}>
                 Cidades
             </div>
-            <div className='col-lg-12 backoffice-option'>
-                
+            <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/categoria"}>
+                Categorias
+            </div>
+            <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/subcategoria"}>
+                Subcategorias
+            </div>
+            <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/post"}>
+                Post
             </div>
             <div className='col-lg-12 backoffice-option'>
                 
