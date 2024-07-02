@@ -3,7 +3,7 @@ import '../Universal/index.css';
 import axios from 'axios';
 
 export default function Post(){
-    const url = "http://localhost:3001/post/list";
+    const url = "https://pint-backend-8vxk.onrender.com/post/list";
 
     const [Post, setPost] = useState([]);
     const [Questionario, setQuestionario] = useState([]);
@@ -43,7 +43,7 @@ export default function Post(){
 
         loadTables();
 
-        axios.get('http://localhost:3001/cidade/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/cidade/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -57,7 +57,7 @@ export default function Post(){
             alert("Erro: fase1" + error)
         })
 
-        axios.get('http://localhost:3001/colaborador/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -71,7 +71,7 @@ export default function Post(){
             alert("Erro: fase2 " + error)
         })
 
-        axios.get('http://localhost:3001/categoria/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/categoria/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -85,7 +85,7 @@ export default function Post(){
             alert("Erro: fase3" + error)
         }) 
 
-        axios.get('http://localhost:3001/aprovacao/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/aprovacao/list')
             .then(res => {
                 if(res.data.success === true){
                     const data = res.data.data;
@@ -108,7 +108,7 @@ export default function Post(){
             }
         })
         if (CATEGORIA) {
-            axios.get(`http://localhost:3001/subcategoria/listbyid/${id}`)
+            axios.get(`https://pint-backend-8vxk.onrender.com/subcategoria/listbyid/${id}`)
                 .then(res => {
                     if (res.data.success === true) {
                         const data = res.data.data;
@@ -288,12 +288,12 @@ export default function Post(){
     )
 
 async function criarColuna(){
-    const urlCriarPost = 'http://localhost:3001/post/create';
-    const urlCriarAprovacao = 'http://localhost:3001/aprovacao/create';
-    const urlCriarEspaco = 'http://localhost:3001/espaco/create';
-    const urlCriarEvento = 'http://localhost:3001/evento/create';
-    const urlCriarQuestionario = 'http://localhost:3001/questionario/create';
-    const urlCriarOpcoesEscolha = 'http://localhost:3001/opcoes_escolha/create';
+    const urlCriarPost = 'https://pint-backend-8vxk.onrender.com/post/create';
+    const urlCriarAprovacao = 'https://pint-backend-8vxk.onrender.com/aprovacao/create';
+    const urlCriarEspaco = 'https://pint-backend-8vxk.onrender.com/espaco/create';
+    const urlCriarEvento = 'https://pint-backend-8vxk.onrender.com/evento/create';
+    const urlCriarQuestionario = 'https://pint-backend-8vxk.onrender.com/questionario/create';
+    const urlCriarOpcoesEscolha = 'https://pint-backend-8vxk.onrender.com/opcoes_escolha/create';
 
     let idEspaco = null;
     let idEvento = 1;
@@ -380,7 +380,7 @@ async function criarColuna(){
     }
 
     function editarColuna(){
-        const urlEditar = 'http://localhost:3001/post/update/' + IDPUBLICACAO;
+        const urlEditar = 'https://pint-backend-8vxk.onrender.com/post/update/' + IDPUBLICACAO;
         const datapost = {
             CIDADE: CIDADE,
             APROVACAO: APROVACAO,
@@ -481,7 +481,7 @@ async function criarColuna(){
 
     function ApagarColuna(data){
         setIDPUBLICACAO(data.IDPUBLICACAO);
-        const urlApagar = 'http://localhost:3001/post/delete/' + data.IDPUBLICACAO;
+        const urlApagar = 'https://pint-backend-8vxk.onrender.com/post/delete/' + data.IDPUBLICACAO;
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){

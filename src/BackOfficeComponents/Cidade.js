@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function Cidade(){
 
-    const url = "http://localhost:3001/cidade/list";
+    const url = "https://pint-backend-8vxk.onrender.com/cidade/list";
 
     const [Cidade, setCidade] = useState([]);
     
@@ -83,7 +83,7 @@ export default function Cidade(){
     )
 
     function criarColuna(){
-        const urlCriar = 'http://localhost:3001/cidade/create'
+        const urlCriar = 'https://pint-backend-8vxk.onrender.com/cidade/create'
         const datapost = {
             NOME: NOME
         }
@@ -103,7 +103,7 @@ export default function Cidade(){
     }
 
     function editarColuna(){
-        const urlEditar = 'http://localhost:3001/cidade/update/' + IDCIDADE;
+        const urlEditar = 'https://pint-backend-8vxk.onrender.com/cidade/update/' + IDCIDADE;
         const datapost = {
             NOME : NOME
         }
@@ -142,7 +142,7 @@ export default function Cidade(){
 
     function ApagarColuna(data){
         setIDCIDADE(data.IDCIDADE);
-        const urlApagar = 'http://localhost:3001/cidade/delete/' + data.IDCIDADE;
+        const urlApagar = 'https://pint-backend-8vxk.onrender.com/cidade/delete/' + data.IDCIDADE;
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){

@@ -1,7 +1,7 @@
 import NavigationBar from "./Nav";
 import LoginInput from "../LoginComponents/Login";
 import Footer from './Footer';
-import React from 'react'
+import React, {useEffect} from 'react'
 import ImagemLogin from "../LoginComponents/ImagemLogin";
 import Filtro from '../MainPageComponents/Filtro'
 import PostBox from "../MainPageComponents/Posts";
@@ -14,6 +14,9 @@ import Post from "../PostComponents/Post"
 import SideBar from "../BackOfficeComponents/SideBar";
 import AuditLog from "../BackOfficeComponents/AuditLog"
 import BackOffice from "../BackOffice/BackOffice";
+import authService from "../views/auth-service";
+import { useNavigate } from "react-router-dom";
+import Main from '../MainPageComponents/PaginaPrincipal'
 
 const word = JSON.stringify(data);
 const arr = JSON.parse(word);
@@ -41,29 +44,60 @@ export default function MainPage() {
 }
 
 function LoginPage() {
-    return (
-        <div className="container-fluid">
-            <div className="row">
-                <LoginInput></LoginInput>
-                <ImagemLogin></ImagemLogin>
+    let user = authService.getCurrentUser();
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(user){
+            navigate('mainpage');
+        }
+    }, [user, navigate]);
+
+    if(!user){
+        return (
+            <div className="container-fluid">
+                <div className="row">
+                    <LoginInput></LoginInput>
+                    <ImagemLogin></ImagemLogin>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+    else{
+        return null;
+    }
 }
 
 function PaginaPrincipal() {
-    return (
-        <div className="container-fluid">
-            <div className="row">
-                <Filtro></Filtro>
-                <PostBox info={arr.posts}></PostBox>
-                <div className="col-lg-3 pe-0 g-0">
-                    <Profile></Profile>
-                    <Notifications></Notifications>
+    let user = authService.getCurrentUser();
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(!user){
+            navigate('/');
+        }
+    }, [user, navigate]);
+
+    if(user){
+        return (
+            /*<div className="container-fluid">
+                <div className="row">
+                    <Main></Main>
+                </div>
+            </div>*/
+            
+            <div className="container-fluid">
+                <div className="row">
+                    <Filtro></Filtro>
+                    <PostBox info={arr.posts}></PostBox>
+                    <div className="col-lg-3 pe-0 g-0">
+                        <Profile></Profile>
+                        <Notifications></Notifications>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 function Publicacao(){
@@ -79,19 +113,3 @@ function Publicacao(){
         </div>
     )
 }
-
-/*function BackOffice(){
-    return(
-        <div className="container-fluid" style={{display: "flex"}}>
-                <SideBar></SideBar>
-                <Routes>
-                    <Route path='auditlog' element={<AuditLog></AuditLog>}>
-                    </Route>
-                    <Route path='colaboradores' element={<Publicacao></Publicacao>}>
-                    </Route>
-                    <Route path='cidades' element={<BackOffice></BackOffice>}>
-                    </Route>
-                </Routes>
-        </div>
-    )
-}*/

@@ -5,7 +5,7 @@ import Categoria from './Categoria';
 
 export default function Subcategoria(){
 
-    const url = "http://localhost:3001/subcategoria/list";
+    const url = "https://pint-backend-8vxk.onrender.com/subcategoria/list";
 
     const [Subcategoria, setSubcategoria] = useState([]);
     
@@ -21,7 +21,7 @@ export default function Subcategoria(){
         document.title = 'Mostrar Subcategorias';
         loadTables();
 
-        axios.get('http://localhost:3001/categoria/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/categoria/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -123,7 +123,7 @@ export default function Subcategoria(){
     )
 
     function criarColuna(){
-        const urlCriar = 'http://localhost:3001/subcategoria/create'
+        const urlCriar = 'https://pint-backend-8vxk.onrender.com/subcategoria/create'
         const datapost = {
             NOME: NOME,
             DESCRICAO: DESCRICAO,
@@ -145,7 +145,7 @@ export default function Subcategoria(){
     }
 
     function editarColuna(){
-        const urlEditar = 'http://localhost:3001/subcategoria/update/' + IDSUBCATEGORIA;
+        const urlEditar = 'https://pint-backend-8vxk.onrender.com/subcategoria/update/' + IDSUBCATEGORIA;
         const datapost = {
             NOME: NOME,
             DESCRICAO: DESCRICAO,
@@ -194,7 +194,7 @@ export default function Subcategoria(){
 
     function ApagarColuna(data){
         setIDSUBCATEGORIA(data.IDSUBCATEGORIA);
-        const urlApagar = 'http://localhost:3001/subcategoria/delete/' + data.IDSUBCATEGORIA;
+        const urlApagar = 'https://pint-backend-8vxk.onrender.com/subcategoria/delete/' + data.IDSUBCATEGORIA;
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){

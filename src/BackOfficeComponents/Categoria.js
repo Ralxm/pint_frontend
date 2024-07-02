@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function Categoria(){
 
-    const url = "http://localhost:3001/categoria/list";
+    const url = "https://pint-backend-8vxk.onrender.com/categoria/list";
 
     const [Categoria, setCategoria] = useState([]);
     
@@ -92,7 +92,7 @@ export default function Categoria(){
     )
 
     function criarColuna(){
-        const urlCriar = 'http://localhost:3001/categoria/create'
+        const urlCriar = 'https://pint-backend-8vxk.onrender.com/categoria/create'
         const datapost = {
             NOME: NOME,
             DESCRICAO : DESCRICAO
@@ -113,7 +113,7 @@ export default function Categoria(){
     }
 
     function editarColuna(){
-        const urlEditar = 'http://localhost:3001/categoria/update/' + IDCATEGORIA;
+        const urlEditar = 'https://pint-backend-8vxk.onrender.com/categoria/update/' + IDCATEGORIA;
         const datapost = {
             NOME: NOME,
             DESCRICAO : DESCRICAO
@@ -155,7 +155,7 @@ export default function Categoria(){
 
     function ApagarColuna(data){
         setIDCATEGORIA(data.IDCATEGORIA);
-        const urlApagar = 'http://localhost:3001/categoria/delete/' + data.IDCATEGORIA;
+        const urlApagar = 'https://pint-backend-8vxk.onrender.com/categoria/delete/' + data.IDCATEGORIA;
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function Cargo(){
 
-    const url = "http://localhost:3001/cargo/list";
+    const url = "https://pint-backend-8vxk.onrender.com/cargo/list";
 
     const [Cargo, setCargo] = useState([]);
     
@@ -92,7 +92,7 @@ export default function Cargo(){
     )
 
     function criarColuna(){
-        const urlCriar = 'http://localhost:3001/cargo/create'
+        const urlCriar = 'https://pint-backend-8vxk.onrender.com/cargo/create'
         const datapost = {
             NOME: NOME,
             DESCRICAO: DESCRICAO,
@@ -113,7 +113,7 @@ export default function Cargo(){
     }
 
     function editarColuna(){
-        const urlEditar = 'http://localhost:3001/cargo/update/' + IDCARGO;
+        const urlEditar = 'https://pint-backend-8vxk.onrender.com/cargo/update/' + IDCARGO;
         const datapost = {
             NOME: NOME,
             DESCRICAO: DESCRICAO,
@@ -155,7 +155,7 @@ export default function Cargo(){
 
     function ApagarColuna(data){
         setIDCARGO(data.IDCARGO);
-        const urlApagar = 'http://localhost:3001/cargo/delete/' + data.IDCARGO;
+        const urlApagar = 'https://pint-backend-8vxk.onrender.com/cargo/delete/' + data.IDCARGO;
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){

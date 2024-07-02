@@ -3,8 +3,7 @@ import '../Universal/index.css';
 import axios from 'axios';
 
 export default function AuditLog(){
-
-    const url = "http://localhost:3001/auditlog/list";
+    const url = "https://pint-backend-8vxk.onrender.com/auditlog/list";
 
     const [AuditLog, setAuditLog] = useState([]);
     
@@ -111,7 +110,7 @@ export default function AuditLog(){
 
 
     function criarAuditLog(){
-        const urlCriar = 'http://localhost:3001/auditlog/create'
+        const urlCriar = 'https://pint-backend-8vxk.onrender.com/auditlog/create'
         const datapost = {
             IDCONTA: IDCONTA,
             TIPOATIVIDADE: TIPOATIVIDADE,
@@ -134,7 +133,7 @@ export default function AuditLog(){
     }
 
     function editarAuditLog(){
-        const urlEditar = 'http://localhost:3001/auditlog/update/' + LOGID;
+        const urlEditar = 'https://pint-backend-8vxk.onrender.com/auditlog/update/' + LOGID;
         const datapost = {
             IDCONTA: IDCONTA,
             TIPOATIVIDADE: TIPOATIVIDADE,
@@ -183,7 +182,7 @@ export default function AuditLog(){
     function ApagarColuna(data){
         setLOGID(data.LOGID);
         let idlog = data.LOGID;
-        const urlApagar = 'http://localhost:3001/auditlog/delete/' + data.LOGID;
+        const urlApagar = 'https://pint-backend-8vxk.onrender.com/auditlog/delete/' + data.LOGID;
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){

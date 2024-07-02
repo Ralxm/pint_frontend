@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import '../Universal/index.css';
 import axios from 'axios';
-import { load } from 'cheerio';
 
 export default function Cidade(){
-
-    const url = "http://localhost:3001/colaborador/list";
+    const url = "https://pint-backend-8vxk.onrender.com/colaborador/list";
 
     const [Colaborador, setColaborador] = useState([]);
     
@@ -28,7 +26,7 @@ export default function Cidade(){
         document.title = 'Mostrar Colaboradores';
         loadTables();
 
-        axios.get('http://localhost:3001/cidade/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/cidade/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -42,7 +40,7 @@ export default function Cidade(){
             alert("Erro: " + error)
         })
 
-        axios.get('http://localhost:3001/cargo/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/cargo/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -58,7 +56,16 @@ export default function Cidade(){
     }, []);
 
     function loadTables(){
-        axios.get(url)
+        let token;
+        try{
+            let user = localStorage.getItem('user');
+            let userData = JSON.parse(user);
+            token = userData.token;
+        }
+        catch{
+            console.log("Erro a ir buscar o token");
+        }
+        axios.get(url, {headers: { 'Authorization' : 'Bearer ' + token } })
         .then(res => {
             if(res.data.success === true){
                 const data = res.data.data;
@@ -69,10 +76,10 @@ export default function Cidade(){
             }
         })
         .catch(error => {
-            alert("Erro " + error);
+            alert("Erro asdasd" + error);
         }); 
 
-        axios.get('http://localhost:3001/cargo/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/cargo/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -86,7 +93,7 @@ export default function Cidade(){
             alert("Erro: " + error)
         })
 
-        axios.get('http://localhost:3001/colaborador_cargo/list')
+        axios.get('https://pint-backend-8vxk.onrender.com/colaborador_cargo/list')
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -230,7 +237,7 @@ export default function Cidade(){
     async function criarColuna(){
         let id;
         let cargo;
-        const urlCriar = 'http://localhost:3001/colaborador/create'
+        const urlCriar = 'https://pint-backend-8vxk.onrender.com/colaborador/create'
         const datapost = {
             EMAIL : EMAIL,
             PASSWORDCOLABORADOR : PASSWORDCOLABORADOR,
@@ -241,6 +248,7 @@ export default function Cidade(){
             DATAREGISTO : DATAREGISTO,
             ULTIMOLOGIN : ULTIMOLOGIN,
         }
+        console.log(datapost)
         await axios.post(urlCriar, datapost)
         .then(res => {
             if(res.data.success === true){
@@ -255,7 +263,7 @@ export default function Cidade(){
             alert('Erro: asd' + error);
         })
 
-        const urlCriarColaboradorCargo = 'http://localhost:3001/colaborador_cargo/create'
+        const urlCriarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/create'
         NomeCargo.map((data) =>{
             if(data.NOME == CARGO){
                 cargo = data.IDCARGO;
@@ -280,7 +288,16 @@ export default function Cidade(){
     }
 
     function editarColuna(){
-        const urlEditar = 'http://localhost:3001/colaborador/update/' + IDCOLABORADOR;
+        let token;
+        try{
+            let user = localStorage.getItem('user');
+            let userData = JSON.parse(user);
+            token = userData.token;
+        }
+        catch{
+            console.log("Erro a ir buscar o token");
+        }
+        const urlEditar = 'https://pint-backend-8vxk.onrender.com/colaborador/update/' + IDCOLABORADOR;
         const datapost = {
             EMAIL: EMAIL,
             PASSWORDCOLABORADOR: PASSWORDCOLABORADOR,
@@ -291,7 +308,7 @@ export default function Cidade(){
             DATAREGISTO: DATAREGISTO,
             ULTIMOLOGIN:ULTIMOLOGIN,
         }
-        axios.put(urlEditar, datapost)
+        axios.put(urlEditar, datapost, {headers: { 'Authorization' : 'Bearer ' + token } } )
         .then(res =>{
             if(res.data.success === true){
                 loadTables();
@@ -317,7 +334,7 @@ export default function Cidade(){
             }
         })
 
-        const urlEditarColaboradorCargo = 'http://localhost:3001/colaborador_cargo/update/' + colabcargoid;
+        const urlEditarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/update/' + colabcargoid;
         const datapostColaboradorCargo = {
             IDCARGO: cargo, 
             IDCOLABORADOR: IDCOLABORADOR,
@@ -336,6 +353,18 @@ export default function Cidade(){
         })
     }
 
+    function ListCidades(){
+        return NomeCidade.map((data, index) =>{
+            return <option key={index} value ={data.IDCIDADE}>{data.NOME}</option>
+        })
+    }
+
+    function ListCargos(){
+        return NomeCargo.map((data, index) =>{
+            return <option key={index} value ={data.IDCIDADE}>{data.NOME}</option>
+        })
+    }
+
     function ListTables(){
         return Colaborador.map((data, index) => {
             let cargo;
@@ -350,7 +379,7 @@ export default function Cidade(){
             })
             let cidade;
             NomeCidade.map((data2) =>{
-                if(data2.IDCIDADE == CIDADE){
+                if(data2.IDCIDADE == data.CIDADE){
                     cidade = data2.NOME
                 }
             })
@@ -360,8 +389,6 @@ export default function Cidade(){
                         <a>ID Colaborador: {data.IDCOLABORADOR}</a>
                         <br></br>
                         <a>Email: {data.EMAIL}</a>
-                        <br></br>
-                        <a>Password: {data.PASSWORDCOLABORADOR}</a>
                         <br></br>
                         <a>Nome: {data.NOME}</a>
                         <br></br>
@@ -386,19 +413,16 @@ export default function Cidade(){
         })
     }
 
-    function ListCidades(){
-        return NomeCidade.map((data, index) =>{
-            return <option key={index} value ={data.IDCIDADE}>{data.NOME}</option>
-        })
-    }
-
-    function ListCargos(){
-        return NomeCargo.map((data, index) =>{
-            return <option key={index} value ={data.IDCIDADE}>{data.NOME}</option>
-        })
-    }
-
     async function ApagarColuna(data){
+        let token;
+        try{
+            let user = localStorage.getItem('user');
+            let userData = JSON.parse(user);
+            token = userData.token;
+        }
+        catch{
+            console.log("Erro a ir buscar o token");
+        }
         setIDCOLABORADOR(data.IDCOLABORADOR);
 
         let colaboradorcargo;
@@ -408,8 +432,8 @@ export default function Cidade(){
             }
         })
 
-        const urlApagarColaboradorCargo = 'http://localhost:3001/colaborador_cargo/delete/' + colaboradorcargo;
-        await axios.put(urlApagarColaboradorCargo)
+        const urlApagarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/delete/' + colaboradorcargo;
+        await axios.put(urlApagarColaboradorCargo, {headers: { 'Authorization' : 'Bearer ' + token } }  )
         .then(res =>{
             if(res.data.success){
                 loadTables();
@@ -419,7 +443,7 @@ export default function Cidade(){
             alert("Erro asdasd" + error)
         });
 
-        const urlApagar = 'http://localhost:3001/colaborador/delete/' + data.IDCOLABORADOR;
+        const urlApagar = 'https://pint-backend-8vxk.onrender.com/colaborador/delete/' + data.IDCOLABORADOR;
         await axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){
