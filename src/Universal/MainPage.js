@@ -10,7 +10,7 @@ import * as dummy from './post-dummy.json'
 import { Route, Routes } from "react-router-dom";
 import Profile from "../MainPageComponents/Profile";
 import Notifications from "../MainPageComponents/Notifications";
-import Post from "../PostComponents/Post"
+import Pub from "../PostComponents/Post"
 import SideBar from "../BackOfficeComponents/SideBar";
 import AuditLog from "../BackOfficeComponents/AuditLog"
 import BackOffice from "../BackOffice/BackOffice";
@@ -80,13 +80,13 @@ function PaginaPrincipal() {
 
     if(user){
         return (
-            /*<div className="container-fluid">
+            <div className="container-fluid">
                 <div className="row">
                     <Main></Main>
                 </div>
-            </div>*/
+            </div>
             
-            <div className="container-fluid">
+            /*<div className="container-fluid">
                 <div className="row">
                     <Filtro></Filtro>
                     <PostBox info={arr.posts}></PostBox>
@@ -95,7 +95,7 @@ function PaginaPrincipal() {
                         <Notifications></Notifications>
                     </div>
                 </div>
-            </div>
+            </div>*/
         )
     }
 }
@@ -104,7 +104,7 @@ function Publicacao(){
     return (
         <div className="container-fluid">
             <div className="row">
-                <Post info={arrdummy}></Post>
+                <Pub info={arrdummy}></Pub>
                 <div className="col-lg-3 pe-0 g-0">
                     <Profile></Profile>
                     <Notifications></Notifications>

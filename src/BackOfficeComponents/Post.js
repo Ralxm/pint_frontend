@@ -57,7 +57,16 @@ export default function Post(){
             alert("Erro: fase1" + error)
         })
 
-        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/list')
+        let token;
+        try{
+            let user = localStorage.getItem('user');
+            let userData = JSON.parse(user);
+            token = userData.token;
+        }
+        catch{
+            console.log("Erro a ir buscar o token");
+        }
+        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/list', {headers: { 'Authorization' : 'Bearer ' + token }})
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
