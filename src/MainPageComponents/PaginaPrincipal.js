@@ -1,16 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import '../Universal/index.css'
 import axios from 'axios';
+import Profile from './Profile'
+import { load } from 'cheerio';
 
 export default function Main(){
     const urlCategoria = "https://pint-backend-8vxk.onrender.com/categoria/";
     const urlSubCategoria = "https://pint-backend-8vxk.onrender.com/subcategoria/";
     const urlPost = "https://pint-backend-8vxk.onrender.com/post/";
+    const urlAprovacao = "https://pint-backend-8vxk.onrender.com/aprovacao/";
+    const urlEspaco = "https://pint-backend-8vxk.onrender.com/post/";
+    const urlEvento = "https://pint-backend-8vxk.onrender.com/aprovacao/";
     let checked = 0;
 
     const [Categoria, setCategoria] = useState([]);
     const [Subcategoria, setSubcategoria] = useState([]);
     const [Publicacao, setPublicacao] = useState([]);
+    const [Espaco, setEspaco] = useState([]);
+    const [Evento, setEvento] = useState([]);
 
 
     useEffect(() =>{
@@ -52,6 +59,34 @@ export default function Main(){
             if (res.data.success === true){
                 const data = res.data.data;
                 setPublicacao(data);
+            }
+            else {
+                alert("Erro Web Service");
+            }
+        })
+        .catch(error => {
+            alert("Erro: " + error)
+        })
+
+        axios.get(urlEspaco + 'list')
+        .then(res => {
+            if (res.data.success === true){
+                const data = res.data.data;
+                setEspaco(data);
+            }
+            else {
+                alert("Erro Web Service");
+            }
+        })
+        .catch(error => {
+            alert("Erro: " + error)
+        })
+
+        axios.get(urlEvento + 'list')
+        .then(res => {
+            if (res.data.success === true){
+                const data = res.data.data;
+                setEvento(data);
             }
             else {
                 alert("Erro Web Service");
@@ -172,39 +207,137 @@ export default function Main(){
 
     function PostBox(){
         return(
-            <div className='col-lg-6 col-sm-12 posts-box'>
+            <div className='col-6 posts-box'>
                 <Post></Post>
             </div>
         )
     }
 
     function Post() {
-            return (
-                <div class="card mb-3 post">
-                    <div class="row g-0">
-                        <div class="col-md-4 post-img-box">
-                            <img class="img-fluid rounded-start post-img" src={this.props.image}></img>
-                        </div>
-                        <div class="col-md-8 post-info-box">
-                            <div class="card-body">
-                                <h5 className="card-title">{this.props.title}</h5>
-                                <p className="card-text">{this.props.category}</p>
-                                <p className="card-text">{this.props.text}</p>
-                                <a className="card-text post-website">{this.props.website}</a>
+        return Publicacao.map((data, index) => {
+            if(data.aprovacao.APROVADA == 1){
+                console.log(data);
+                const { categorium, espaco, evento, subcategorium } = data;
+                if(evento.IDEVENTO == 1){ //RETURN DE UM ESPAÇO POIS O EVENTO É O DEFAULT
+                    return(
+                        <div className='card mb-3 post' style={{cursor: 'pointer'}} onClick={() => window.location = "#/post/" + data.IDPUBLICACAO}>
+                            <div className="row g-0">
+                                <div className="col-md-4 post-img-box">
+                                    <img className="img-fluid rounded-start post-img" src={'./logo192.png'}></img>
+                                </div>
+                                <div className="col-md-8 post-info-box position-relative">
+                                    <div className="card-body">
+                                        <h5 className="card-title">{data.TITULO}</h5>
+                                        <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
+                                        <p className="card-text">{data.TEXTO}</p>
+                                    </div>
+                                    <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}}>{espaco.WEBSITE}</a>
+                                </div>
                             </div>
                         </div>
+                    )
+                }
+                else{ //RETURN DE UM EVENTO POIS O ESPAÇO É O DEFAULT
+
+                }
+                
+            }
+        })
+    }
+
+    function Notification(){
+        return Publicacao.map((data, index) => {
+            if(data.aprovacao.APROVADA == 0){
+                return (
+                    <div className='container-fluid col-lg-12 notification'>
+                    <div className='col-lg-12 notification-title'>
+                        <h4>{data.TITULO}</h4>
+                    </div>
+                    <div className='col-lg-12 notification-text'>
+                        <p>{data.TEXTO}</p>
+                    </div>
+                    <div className='col-lg-12 notification-buttons'>
+                        <Aceitar pub={data}></Aceitar>
+                        <Rejeitar></Rejeitar>
                     </div>
                 </div>
-            )
+                )
+            }
+        })
+    }
+
+    function Aprovar(props){
+        const { pub } = props;
+        const { aprovacao } = pub;
+
+        const datapost = {
+            IDCOLABORADOR : 0,
+            DATAAPROVACAO : aprovacao.DATAAPROVACAO,
+            APROVADA : 1          
+        }
+        axios.put(urlAprovacao + 'update/' + aprovacao.IDAPROVACAO, datapost)
+        .then(function(data){
+            if(data.data.success === true){
+                console.log("fixe");
+                const updatedPublicacao = Publicacao.map(item => {
+                    if (item.IDPOST === pub.IDPOST) {
+                        return {
+                            ...item,
+                            aprovacao: {
+                                ...item.aprovacao,
+                                APROVADA: 1
+                            }
+                        };
+                    }
+                    return item;
+                });
+                setPublicacao(updatedPublicacao);
+            }
+            else{
+                console.log("não fixe");
+            }
+        })
+        .catch(err =>{
+            console.log("Erro");
+        })
+        loadTables();
+    }
+    
+    function Aceitar(props){
+        return(
+            <button className='button-aceitar' onClick={() => Aprovar(props)}>
+                Aceitar
+            </button>
+        )
+    }
+    
+    
+    function Rejeitar(props){
+        return(
+            <button className='button-rejeitar'>
+                Rejeitar
+            </button>
+        )
+    }
+    
+    
+    function Notifications(){
+        return(
+            <div className='container-fluid notifications-box'>
+                <Notification></Notification>
+            </div>
+        )
     }
 
     return(
-        <div>
+        <div className='d-flex'>
             <Filtro></Filtro>
             <PostBox></PostBox>
+            <div className="col-lg-3 pe-0 g-0">
+                <Profile></Profile>
+                <Notifications></Notifications>
+            </div>
         </div>
     )
-
-
 }
 
