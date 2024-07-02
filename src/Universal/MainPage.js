@@ -3,8 +3,6 @@ import LoginInput from "../LoginComponents/Login";
 import Footer from './Footer';
 import React, {useEffect} from 'react'
 import ImagemLogin from "../LoginComponents/ImagemLogin";
-import * as data from './posts.json'
-import * as dummy from './post-dummy.json'
 import { Route, Routes } from "react-router-dom";
 import BackOffice from "../BackOffice/BackOffice";
 import authService from "../views/auth-service";
@@ -12,11 +10,6 @@ import { useNavigate } from "react-router-dom";
 import Main from '../MainPageComponents/PaginaPrincipal'
 import Post from '../PostComponents/Post'
 
-const word = JSON.stringify(data);
-const arr = JSON.parse(word);
-
-const dummyjson = JSON.stringify(dummy);
-const arrdummy = JSON.parse(dummyjson); 
 
 export default function MainPage() {
         return (

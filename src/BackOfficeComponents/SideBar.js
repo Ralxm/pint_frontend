@@ -4,6 +4,9 @@ import '../Universal/index.css'
 export default function SideBar(){
     return(
         <div className='side-bar col-2'>
+            <div className='col-lg-12 backoffice-option'>
+                Estatísticas
+            </div>
             <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/auditlog"}>
                 Audit Log
             </div>
@@ -24,9 +27,6 @@ export default function SideBar(){
             </div>
             <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/post"}>
                 Post
-            </div>
-            <div className='col-lg-12 backoffice-option'>
-                
             </div>
         </div>
     )
