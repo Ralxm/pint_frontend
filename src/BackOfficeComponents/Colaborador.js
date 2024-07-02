@@ -248,7 +248,6 @@ export default function Cidade(){
             DATAREGISTO : DATAREGISTO,
             ULTIMOLOGIN : ULTIMOLOGIN,
         }
-        console.log(datapost)
         await axios.post(urlCriar, datapost)
         .then(res => {
             if(res.data.success === true){

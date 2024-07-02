@@ -11,6 +11,7 @@ export default function Main(){
     const urlAprovacao = "https://pint-backend-8vxk.onrender.com/aprovacao/";
     const urlEspaco = "https://pint-backend-8vxk.onrender.com/post/";
     const urlEvento = "https://pint-backend-8vxk.onrender.com/aprovacao/";
+    const urlColaborador = "https://pint-backend-8vxk.onrender.com/colaborador/";
     let checked = 0;
 
     const [Categoria, setCategoria] = useState([]);
@@ -18,7 +19,7 @@ export default function Main(){
     const [Publicacao, setPublicacao] = useState([]);
     const [Espaco, setEspaco] = useState([]);
     const [Evento, setEvento] = useState([]);
-
+    const [Colaborador, setColaborador] = useState([]);
 
     useEffect(() =>{
         document.title = 'Página Principal';
@@ -26,6 +27,20 @@ export default function Main(){
     }, [])
 
     function loadTables(){
+        axios.get(urlColaborador + 'list')
+        .then(res => {
+            if (res.data.success === true){
+                const data = res.data.data;
+                setColaborador(data);
+            }
+            else {
+                alert("Erro Web Service");
+            }
+        })
+        .catch(error => {
+            alert("Erro: " + error)
+        })
+
         axios.get(urlCategoria + 'list')
         .then(res => {
             if (res.data.success === true){
@@ -216,7 +231,6 @@ export default function Main(){
     function Post() {
         return Publicacao.map((data, index) => {
             if(data.aprovacao.APROVADA == 1){
-                console.log(data);
                 const { categorium, espaco, evento, subcategorium } = data;
                 if(evento.IDEVENTO == 1){ //RETURN DE UM ESPAÇO POIS O EVENTO É O DEFAULT
                     return(
@@ -230,6 +244,7 @@ export default function Main(){
                                         <h5 className="card-title">{data.TITULO}</h5>
                                         <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
                                         <p className="card-text">{data.TEXTO}</p>
+                                        <p className="card-text">{'id da cidade: ' + data.CIDADE}</p>
                                     </div>
                                     <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}}>{espaco.WEBSITE}</a>
                                 </div>
@@ -279,19 +294,9 @@ export default function Main(){
         .then(function(data){
             if(data.data.success === true){
                 console.log("fixe");
-                const updatedPublicacao = Publicacao.map(item => {
-                    if (item.IDPOST === pub.IDPOST) {
-                        return {
-                            ...item,
-                            aprovacao: {
-                                ...item.aprovacao,
-                                APROVADA: 1
-                            }
-                        };
-                    }
-                    return item;
-                });
+                const updatedPublicacao = Publicacao.filter(item => item.IDPOST !== pub.IDPOST);
                 setPublicacao(updatedPublicacao);
+                loadTables();
             }
             else{
                 console.log("não fixe");

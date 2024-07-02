@@ -22,7 +22,6 @@ export default function LoginInput(){
             event.preventDefault();
             setmessage('');
             setloading(true);
-
             authService.login(EMAIL, PASSWORD)
             .then(res => {
                 if(res === "" || res === false){

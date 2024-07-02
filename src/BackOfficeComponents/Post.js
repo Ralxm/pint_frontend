@@ -375,9 +375,6 @@ async function criarColuna(){
             ALBUM: ALBUM,
         };
 
-        console.log(datapostPost);
-
-        console.log(datapostPost);
         axios.post(urlCriarPost, datapostPost)
         .then(res =>{
             if(res.data.success === true){
@@ -430,8 +427,15 @@ async function criarColuna(){
 
     function ListTables(){
         return Post.map((data, index) => {
-            const aprovacaoStatus = Aprovacao.find(aprov => aprov.IDAPROVACAO === data.APROVACAO);
-            const aprovada = aprovacaoStatus ? (aprovacaoStatus.APROVADA === 0 ? "Não aprovada" : "Aprovada") : "Unknown";
+            let aprov;
+            if (Aprovacao && Array.isArray(Aprovacao)) {
+                Aprovacao.forEach(data2 => {
+                    if (data2.IDAPROVACAO == data.APROVACAO) {
+                        aprov = data2;
+                    }
+                });
+            }
+            const aprovada = aprov ? (aprov.APROVADA === 0 ? "Não aprovada" : "Aprovada") : "Unknown";
             return(
                 <div className='col-12 showTable'>
                     <div className='showTableText'>
