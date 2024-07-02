@@ -376,15 +376,23 @@ async function criarColuna(){
         };
 
         console.log(datapostPost);
-        const resPost = await axios.post(urlCriarPost, datapostPost);
-        if (resPost.data.success) {
-            setPost(resPost.data.data);
-            loadTables();
-        } else {
-            alert(resPost.data.message);
-        }
-    } catch (error) {
-        alert('Erro: ' + error);
+
+        console.log(datapostPost);
+        axios.post(urlCriarPost, datapostPost)
+        .then(res =>{
+            if(res.data.success === true){
+                loadTables();
+            }
+            else{
+                alert('Erro');
+            }
+        })
+        .catch(error => { 
+            alert("Error: fase123" + error);
+        });
+    }
+    catch{
+        alert('something')
     }
     }
 
