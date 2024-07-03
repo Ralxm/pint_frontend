@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../Universal/index.css'
 import { useNavigate } from 'react-router-dom';
 import authService from '../views/auth-service'
+import axios from 'axios'
 
 export default function Profile(){
+        const urlColaborador = "https://pint-backend-8vxk.onrender.com/colaborador/";
+
         const navigate = useNavigate();
         function logoutHandler(){
             let user = authService.getCurrentUser();
@@ -12,6 +15,44 @@ export default function Profile(){
                 navigate('/');
             }
         }
+        
+        const [Utilizador, setUtilizador] = useState("")
+        const [Cidade, setCidade] = useState("")
+
+        useEffect(() => {
+            loadPerfil();
+        }, [])
+
+        useEffect(() => {
+            setCidade(Utilizador.cidade)
+        }, [Utilizador])
+
+        function loadPerfil(){
+            let id = JSON.parse(localStorage.getItem("id"));
+            let token;
+            try{
+                let user = localStorage.getItem('user');
+                let userData = JSON.parse(user);
+                token = userData.token;
+            }
+            catch{
+                console.log("Erro a ir buscar o token");
+            }
+            let url = urlColaborador + 'get/' + id
+            axios.get(url, {headers: { 'Authorization' : 'Bearer ' + token } })
+            .then(res => {
+                if (res.data.success === true){
+                    const data = res.data.data;
+                    setUtilizador(data);
+                }
+                else {
+                    alert("Erro Web Service");
+                }
+            })
+            .catch(error => {
+                alert("Erro: " + error)
+            })
+        }
 
         return (
             <div className='container-fluid profile-box'>
@@ -19,8 +60,8 @@ export default function Profile(){
                     <div className='col-lg-9 col-md-9 col-sm-9 col-xs-9 profile-info-text'>
                         <div>
                             <h3>Administrador</h3>
-                            <span>António Gonçalves</span>
-                            <p>Viseu</p>
+                            {Utilizador && <span>{Utilizador.NOME}</span>}
+                            {Cidade && <p>{Cidade.NOME}</p> }
                         </div>
                     </div>
                     <div className='col-lg-3 col-md-3 col-sm-3 col-xs-3 profile-info-image'>

@@ -6,13 +6,14 @@ class AuthService{
         .then(res => {
             if(res.data.token){
                 localStorage.setItem('user', JSON.stringify(res.data));   
+                localStorage.setItem("id", JSON.stringify(res.data.id));
             }
             return res.data;
         }, reason => {throw new Error('Utilizador Inválido');});
     }
     logout() {
         localStorage.removeItem('user');
-        localStorage.removeItem('email');
+        localStorage.removeItem('id');
     }
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'));

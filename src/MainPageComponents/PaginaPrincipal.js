@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import '../Universal/index.css'
 import axios from 'axios';
 import Profile from './Profile'
-import { load } from 'cheerio';
 
 export default function Main(){
     const urlCategoria = "https://pint-backend-8vxk.onrender.com/categoria/";
