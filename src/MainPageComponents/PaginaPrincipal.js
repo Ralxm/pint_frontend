@@ -20,17 +20,43 @@ export default function Main(){
     const [Evento, setEvento] = useState([]);
     const [Colaborador, setColaborador] = useState([]);
 
+    const [Utilizador, setUtilizador] = useState([]);
+
     useEffect(() =>{
         document.title = 'Página Principal';
         loadTables();
     }, [])
 
     function loadTables(){
-        axios.get(urlColaborador + 'list')
+        let id = JSON.parse(localStorage.getItem('id'));
+        let token;
+        try{
+            let user = localStorage.getItem('user');
+            let userData = JSON.parse(user);
+            token = userData.token;
+        }
+        catch{
+            console.log("Erro a ir buscar o token");
+        }
+        axios.get(urlColaborador + 'list', {headers: { 'Authorization' : 'Bearer ' + token } })
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
                 setColaborador(data);
+            }
+            else {
+                alert("Erro Web Service");
+            }
+        })
+        .catch(error => {
+            alert("Erro: " + error)
+        })
+
+        axios.get(urlColaborador + 'get/' + id, {headers: { 'Authorization' : 'Bearer ' + token } })
+        .then(res => {
+            if (res.data.success === true){
+                const data = res.data.data;
+                setUtilizador(data);
             }
             else {
                 alert("Erro Web Service");
@@ -229,32 +255,34 @@ export default function Main(){
 
     function Post() {
         return Publicacao.map((data, index) => {
-            if(data.aprovacao.APROVADA == 1){
-                const { categorium, espaco, evento, subcategorium } = data;
-                if(evento.IDEVENTO == 1){ //RETURN DE UM ESPAÇO POIS O EVENTO É O DEFAULT
-                    return(
-                        <div className='card mb-3 post' style={{cursor: 'pointer'}} onClick={() => window.location = "#/post/" + data.IDPUBLICACAO}>
-                            <div className="row g-0">
-                                <div className="col-md-4 post-img-box">
-                                    <img className="img-fluid rounded-start post-img" src={'./logo192.png'}></img>
-                                </div>
-                                <div className="col-md-8 post-info-box position-relative">
-                                    <div className="card-body">
-                                        <h5 className="card-title">{data.TITULO}</h5>
-                                        <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
-                                        <p className="card-text">{data.TEXTO}</p>
-                                        <p className="card-text">{'id da cidade: ' + data.CIDADE}</p>
+            if(Publicacao && data.CIDADE == data.colaborador.CIDADE && data.CIDADE == Utilizador.CIDADE){
+                console.log(data);
+                if(data.aprovacao.APROVADA == 1){
+                    const { categorium, espaco, evento, subcategorium } = data;
+                    if(evento.IDEVENTO == 1){ //RETURN DE UM ESPAÇO POIS O EVENTO É O DEFAULT
+                        return(
+                            <div className='card mb-3 post' style={{cursor: 'pointer'}} onClick={() => window.location = "#/post/" + data.IDPUBLICACAO}>
+                                <div className="row g-0">
+                                    <div className="col-md-4 post-img-box">
+                                        <img className="img-fluid rounded-start post-img" src={'./logo192.png'}></img>
                                     </div>
-                                    <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}}>{espaco.WEBSITE}</a>
+                                    <div className="col-md-8 post-info-box position-relative">
+                                        <div className="card-body">
+                                            <h5 className="card-title">{data.TITULO}</h5>
+                                            <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
+                                            <p className="card-text">{data.TEXTO}</p>
+                                            <p className="card-text">{'id da cidade: ' + data.CIDADE}</p>
+                                        </div>
+                                        <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}}>{espaco.WEBSITE}</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                }
-                else{ //RETURN DE UM EVENTO POIS O ESPAÇO É O DEFAULT
-
-                }
-                
+                        )
+                    }
+                    else{ //RETURN DE UM EVENTO POIS O ESPAÇO É O DEFAULT
+    
+                    }
+            } 
             }
         })
     }
@@ -272,7 +300,7 @@ export default function Main(){
                     </div>
                     <div className='col-lg-12 notification-buttons'>
                         <Aceitar pub={data}></Aceitar>
-                        <Rejeitar></Rejeitar>
+                        <Rejeitar pub={data}></Rejeitar>
                     </div>
                 </div>
                 )
@@ -283,9 +311,9 @@ export default function Main(){
     function Aprovar(props){
         const { pub } = props;
         const { aprovacao } = pub;
-
+        let id = JSON.parse(localStorage.getItem('id'));
         const datapost = {
-            IDCOLABORADOR : 0,
+            IDCOLABORADOR : id,
             DATAAPROVACAO : aprovacao.DATAAPROVACAO,
             APROVADA : 1          
         }
@@ -306,6 +334,50 @@ export default function Main(){
         })
         loadTables();
     }
+
+    function RejeitarApagar(props){
+        console.log(props)
+        let token;
+        try{
+            let user = localStorage.getItem('user');
+            let userData = JSON.parse(user);
+            token = userData.token;
+        }
+        catch{
+            console.log("Erro a ir buscar o token");
+        }
+        const { pub } = props;
+        const { aprovacao } = pub;
+
+        axios.put(urlPost + 'delete/' + pub.IDPUBLICACAO, {headers: { 'Authorization' : 'Bearer ' + token } })
+        .then(function(data){
+            if(data.data.success === true){
+                console.log("fixe");
+                loadTables();
+            }
+            else{
+                console.log("não fixe");
+            }
+        })
+        .catch(err =>{
+            console.log("Erro");
+        })
+        axios.put(urlAprovacao + 'delete/' + aprovacao.IDAPROVACAO)
+        .then(function(data){
+            if(data.data.success === true){
+                console.log("fixe");
+                loadTables();
+            }
+            else{
+                console.log("não fixe");
+            }
+        })
+        .catch(err =>{
+            console.log("Erro");
+        })
+        
+        loadTables();
+    }
     
     function Aceitar(props){
         return(
@@ -318,7 +390,7 @@ export default function Main(){
     
     function Rejeitar(props){
         return(
-            <button className='button-rejeitar'>
+            <button className='button-rejeitar' onClick={() => RejeitarApagar(props)}>
                 Rejeitar
             </button>
         )

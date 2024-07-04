@@ -30,6 +30,8 @@ function BackOffice(){
                     </Route> 
                     <Route path='post' element={<Post></Post>}>
                     </Route>
+                    <Route path='estatistica' element={<Post></Post>}>
+                    </Route>
                 </Routes>
         </div>
     )

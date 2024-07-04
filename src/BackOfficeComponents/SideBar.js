@@ -4,7 +4,7 @@ import '../Universal/index.css'
 export default function SideBar(){
     return(
         <div className='side-bar col-2'>
-            <div className='col-lg-12 backoffice-option'>
+            <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/estatistica"}>
                 Estatísticas
             </div>
             <div className='col-lg-12 backoffice-option' onClick={() => window.location= "#/backoffice/auditlog"}>
