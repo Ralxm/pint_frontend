@@ -6,6 +6,7 @@ import authHeader from '../views/auth-header';
 import authService from '../views/auth-service';
 
 export default function LoginInput(){
+        const url = "https://pint-backend-8vxk.onrender.com/";
         const [Colaboradores, setColaboradores] = useState([]);
 
         const [EMAIL, setEMAIL] = useState("");
@@ -29,6 +30,7 @@ export default function LoginInput(){
                     setloading(false);
                 }
                 else{
+                    logLogin(EMAIL)
                     navigate('mainpage');
                 }
             })
@@ -36,6 +38,31 @@ export default function LoginInput(){
                 alert('Autenticação falhou')
                 setmessage('Autenticação falhou');
                 setloading(false);
+            })
+        }
+
+        function logLogin(){
+            let id = JSON.parse(localStorage.getItem('id'));
+            let now = new Date();
+            let dd = now.getDate();
+            let mm = now.getMonth() + 1;
+            let yyyy = now.getFullYear();
+            if (dd < 10) dd = '0' + dd;
+            if (mm < 10) mm = '0' + mm;
+            let today = `${yyyy}-${mm}-${dd}`;
+            console.log(today);
+            const datapost = {
+                IDCONTA: id,
+                TIPOATIVIDADE: 'Login',
+                DATA: today,
+                DESCRICAO: 'Conta com id ' + id + ' efetuou login.'
+            }
+            axios.post(url + 'auditlog/create', datapost)
+            .then(function(data){
+
+            })
+            .catch(err =>{
+                alert("Erro a inserir audit log de login");
             })
         }
 

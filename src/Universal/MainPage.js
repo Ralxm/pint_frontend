@@ -50,9 +50,6 @@ function LoginPage() {
             </div>
         )
     }
-    else{
-        return null;
-    }
 }
 
 function PaginaPrincipal() {
@@ -77,6 +74,15 @@ function PaginaPrincipal() {
 }
 
 function Publicacao(){
+    let user = authService.getCurrentUser();
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(!user){
+            navigate('/');
+        }
+    }, [user, navigate]);
+
     return (
         <div className="container-fluid">
             <div className="row">

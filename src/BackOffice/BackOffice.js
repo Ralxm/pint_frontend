@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react'
 import { Route, Routes } from "react-router-dom";
 import '../Universal/index.css';
 import SideBar from '../BackOfficeComponents/SideBar';
+import { useNavigate, useLocation } from "react-router-dom";
+import authService from "../views/auth-service";
 
 import AuditLog from '../BackOfficeComponents/AuditLog';
 import Colaborador from '../BackOfficeComponents/Colaborador';
@@ -10,8 +12,23 @@ import Cidade from '../BackOfficeComponents/Cidade'
 import Categoria from '../BackOfficeComponents/Categoria'
 import Subcategoria from '../BackOfficeComponents/Subcategoria';
 import Post from '../BackOfficeComponents/Post'
+import Estatistica from '../BackOfficeComponents/Estatisticas';
 
-function BackOffice(){
+export default function BackOffice(){
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [user, setUser] = useState(null);
+
+    useEffect(()=>{
+        const currentUser = authService.getCurrentUser();
+        setUser(currentUser);
+        if (!currentUser) {
+            navigate('/');
+        } else if (location.pathname === '/backoffice') {
+            navigate('estatistica');
+        }
+    }, [navigate]);
+
     return(
         <div className="container-fluid" style={{display: "flex"}}>
                 <SideBar></SideBar>
@@ -30,11 +47,9 @@ function BackOffice(){
                     </Route> 
                     <Route path='post' element={<Post></Post>}>
                     </Route>
-                    <Route path='estatistica' element={<Post></Post>}>
+                    <Route path='estatistica' element={<Estatistica></Estatistica>}>
                     </Route>
                 </Routes>
         </div>
     )
 }
-
-export default BackOffice;

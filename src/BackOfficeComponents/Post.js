@@ -37,6 +37,8 @@ export default function Post(){
     const [Colaborador, setColaborador] = useState([]);
     const [Categoria, setCategoria] = useState([]);
     const [Subcategoria, setSubcategoria] = useState([]);
+
+    const [Utilizador, setUtilizador] = useState([]);
     
     useEffect(() => {
         document.title = 'Mostrar Post';
@@ -133,6 +135,16 @@ export default function Post(){
     }, [CATEGORIA]);
 
     function loadTables(){
+        let id = JSON.parse(localStorage.getItem('id'));
+        let token;
+        try{
+            let user = localStorage.getItem('user');
+            let userData = JSON.parse(user);
+            token = userData.token;
+        }
+        catch{
+            console.log("Erro a ir buscar o token");
+        }
         axios.get(url)
         .then(res => {
             if(res.data.success === true){
@@ -146,6 +158,20 @@ export default function Post(){
         .catch(error => {
             alert("Erro fase4" + error);
         }); 
+
+        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/get/' + id, {headers: { 'Authorization' : 'Bearer ' + token } })
+        .then(res => {
+            if (res.data.success === true){
+                const data = res.data.data;
+                setUtilizador(data);
+            }
+            else {
+                alert("Erro Web Service");
+            }
+        })
+        .catch(error => {
+            alert("Erro: " + error)
+        })
     }
 
     const addOption = () => {
@@ -436,43 +462,45 @@ async function criarColuna(){
                 });
             }
             const aprovada = aprov ? (aprov.APROVADA === 0 ? "Não aprovada" : "Aprovada") : "Unknown";
-            return(
-                <div className='col-12 showTable'>
-                    <div className='showTableText'>
-                        <a>ID Publicação: {data.IDPUBLICACAO}</a>
-                        <br></br>
-                        <a>Cidade: {data.CIDADE}</a>
-                        <br></br>
-                        <a>Aprovação: {data.APROVACAO + ' - ' + aprovada}</a>
-                        <br></br>
-                        <a>Colaborador: {data.COLABORADOR}</a>
-                        <br></br>
-                        <a>Categoria: {data.CATEGORIA}</a>
-                        <br></br>
-                        <a>Subcategoria: {data.SUBCATEGORIA}</a>
-                        <br></br>
-                        <a>Espaço: {data.ESPACO}</a>
-                        <br></br>
-                        <a>Evento: {data.EVENTO}</a>
-                        <br></br>
-                        <a>Data publicação: {data.DATAPUBLICACAO}</a>
-                        <br></br>
-                        <a>Data ultima atividade: {data.DATAULTIMAATIVIDADE}</a>
-                        <br></br>
-                        <a>Título: {data.TITULO}</a>
-                        <br></br>
-                        <a>Texto: {data.TEXTO}</a>
-                        <br></br>
-                        <a>Rating: {data.RATING}</a>
-                        <br></br>
-                        <a>Album: {data.ALBUM}</a>
+            if(data.CIDADE == Utilizador.CIDADE){
+                return(
+                    <div className='col-12 showTable'>
+                        <div className='showTableText'>
+                            <a>ID Publicação: {data.IDPUBLICACAO}</a>
+                            <br></br>
+                            <a>Cidade: {data.CIDADE}</a>
+                            <br></br>
+                            <a>Aprovação: {data.APROVACAO + ' - ' + aprovada}</a>
+                            <br></br>
+                            <a>Colaborador: {data.COLABORADOR}</a>
+                            <br></br>
+                            <a>Categoria: {data.CATEGORIA}</a>
+                            <br></br>
+                            <a>Subcategoria: {data.SUBCATEGORIA}</a>
+                            <br></br>
+                            <a>Espaço: {data.ESPACO}</a>
+                            <br></br>
+                            <a>Evento: {data.EVENTO}</a>
+                            <br></br>
+                            <a>Data publicação: {data.DATAPUBLICACAO}</a>
+                            <br></br>
+                            <a>Data ultima atividade: {data.DATAULTIMAATIVIDADE}</a>
+                            <br></br>
+                            <a>Título: {data.TITULO}</a>
+                            <br></br>
+                            <a>Texto: {data.TEXTO}</a>
+                            <br></br>
+                            <a>Rating: {data.RATING}</a>
+                            <br></br>
+                            <a>Album: {data.ALBUM}</a>
+                        </div>
+                        <div className='showTableButtons'>
+                            <button className='btn btn-info' onClick={() => inserirEditarColuna(data)}>Editar</button>
+                            <button className='btn btn-danger' onClick={() => ApagarColuna(data)}>Apagar</button>
+                        </div>
                     </div>
-                    <div className='showTableButtons'>
-                        <button className='btn btn-info' onClick={() => inserirEditarColuna(data)}>Editar</button>
-                        <button className='btn btn-danger' onClick={() => ApagarColuna(data)}>Apagar</button>
-                    </div>
-                </div>
-            )
+                )
+            }
         })
     }
 
