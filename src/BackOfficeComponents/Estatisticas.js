@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import '../Universal/index.css';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import authHeader from '../views/auth-header';
 
 export default function Estatistica(){
     const urlColaborador = "https://pint-backend-8vxk.onrender.com/colaborador/";
@@ -75,7 +76,7 @@ export default function Estatistica(){
         catch{
             console.log("Erro a ir buscar o token");
         }
-        axios.get(urlColaborador + 'list', {headers: { 'Authorization' : 'Bearer ' + token } })
+        axios.get(urlColaborador + 'list', authHeader())
         .then(res => {
             if(res.data.success === true){
                 const data = res.data.data;
@@ -89,7 +90,7 @@ export default function Estatistica(){
             alert("Erro " + error);
         }); 
 
-        axios.get(urlColaborador + 'get/' + id, {headers: { 'Authorization' : 'Bearer ' + token } })
+        axios.get(urlColaborador + 'get/' + id, authHeader())
         .then(res => {
             if(res.data.success === true){
                 const data = res.data.data;
@@ -242,20 +243,5 @@ export default function Estatistica(){
             </div>
         );
     }
-
-    /*function PublicacoesCriadasUltimos30Dias(){
-        return Post.map((data, index) => {
-            console.log(Utilizador.CIDADE)
-            if(data.CIDADE == Utilizador.CIDADE){
-                return(
-                    <div className='col-12 showTable'>
-                        <div className='showTableText'>
-                            <a>ID Publicação: {data.TITULO}</a>
-                        </div>
-                    </div>
-                )
-            }
-        })
-    }*/
 }
 

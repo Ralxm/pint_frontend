@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Buffer } from 'buffer';
 import '../Universal/index.css';
 import axios from 'axios';
 
@@ -31,7 +32,7 @@ export default function Post(){
     const [TITULO, setTITULO] = useState("");
     const [TEXTO, setTEXTO] = useState("");
     const [RATING, setRATING] = useState("");
-    const [ALBUM, setALBUM] = useState("");
+    const [IMAGEM, setIMAGEM] = useState("");
 
     const [Cidade, setCidade] = useState([]);
     const [Colaborador, setColaborador] = useState([]);
@@ -39,6 +40,8 @@ export default function Post(){
     const [Subcategoria, setSubcategoria] = useState([]);
 
     const [Utilizador, setUtilizador] = useState([]);
+
+    const [ImageUrl, setImageUrl] = useState("");
     
     useEffect(() => {
         document.title = 'Mostrar Post';
@@ -297,8 +300,8 @@ export default function Post(){
                             <input id='descricao' onChange={(value)=> setRATING(value.target.value)}></input>
                         </div>
                         <div className='input-group'>
-                            <label>Album</label>
-                            <input id='descricao' onChange={(value)=> setALBUM(value.target.value)}></input>
+                            <label>Imagem</label>
+                            <input id='descricao' type='file' onChange={(value)=> setIMAGEM(value.target.files[0])}></input>
                         </div>
                         <div>
                             <button onClick={criarColuna} className='btn btn-info'>Inserir</button>
@@ -385,7 +388,7 @@ async function criarColuna(){
 
         setAPROVACAO(idAprovacao);
 
-        const datapostPost = {
+        /*const datapostPost = {
             CIDADE: idCidade,
             APROVACAO: idAprovacao,
             COLABORADOR: idColaborador,
@@ -398,10 +401,37 @@ async function criarColuna(){
             TITULO: TITULO,
             TEXTO: TEXTO,
             RATING: RATING,
-            ALBUM: ALBUM,
-        };
+            IMAGEM: IMAGEM,
+        };*/
+        console.log('ID Cidade:', idCidade);
+        console.log('ID Colaborador:', idColaborador);
+        console.log('ID Categoria:', idCategoria);
+        console.log('ID Subcategoria:', idSubcategoria);
+        console.log('ID Espaco:', idEspaco);
+        console.log('ID Evento:', idEvento);
+        console.log('ID Aprovacao:', idAprovacao);
+        console.log('DATAPUBLICACAO:', DATAPUBLICACAO);
+        console.log('DATAULTIMAATIVIDADE:', DATAULTIMAATIVIDADE);
+        console.log('TITULO:', TITULO);
+        console.log('TEXTO:', TEXTO);
+        console.log('RATING:', RATING);
+        console.log('IMAGEM:', IMAGEM);
+        const datapostPost = new FormData();
+        datapostPost.append('CIDADE', idCidade);
+        datapostPost.append('APROVACAO', idAprovacao);
+        datapostPost.append('COLABORADOR', idColaborador);
+        datapostPost.append('CATEGORIA', idCategoria);
+        datapostPost.append('SUBCATEGORIA', idSubcategoria);
+        datapostPost.append('ESPACO', idEspaco);
+        datapostPost.append('EVENTO', idEvento);
+        datapostPost.append('DATAPUBLICACAO', DATAPUBLICACAO);
+        datapostPost.append('DATAULTIMAATIVIDADE', DATAULTIMAATIVIDADE);
+        datapostPost.append('TITULO', TITULO);
+        datapostPost.append('TEXTO', TEXTO);
+        datapostPost.append('RATING', RATING);
+        datapostPost.append('IMAGEM', IMAGEM);
 
-        axios.post(urlCriarPost, datapostPost)
+        axios.post(urlCriarPost, datapostPost, {headers: { 'Content-Type': 'multipart/form-data' }, })
         .then(res =>{
             if(res.data.success === true){
                 loadTables();
@@ -411,7 +441,8 @@ async function criarColuna(){
             }
         })
         .catch(error => { 
-            alert("Error: fase123" + error);
+            console.error("Detailed Error: ", error.response ? error.response.data : error.message);
+            alert("Error: fase123 " + (error.response ? error.response.data.message : error.message));
         });
     }
     catch{
@@ -434,7 +465,7 @@ async function criarColuna(){
             TITULO: TITULO,
             TEXTO: TEXTO,
             RATING: RATING,
-            ALBUM: ALBUM,
+            IMAGEM: IMAGEM,
         }
         axios.put(urlEditar, datapost)
         .then(res =>{
@@ -453,6 +484,7 @@ async function criarColuna(){
 
     function ListTables(){
         return Post.map((data, index) => {
+            console.log(data);
             let aprov;
             if (Aprovacao && Array.isArray(Aprovacao)) {
                 Aprovacao.forEach(data2 => {
@@ -462,6 +494,8 @@ async function criarColuna(){
                 });
             }
             const aprovada = aprov ? (aprov.APROVADA === 0 ? "Não aprovada" : "Aprovada") : "Unknown";
+            const base64 = Buffer.from(data.IMAGEM.data, "binary" ).toString("base64");
+            const base64Image = 'data:image/jpeg;base64,' + base64;
             if(data.CIDADE == Utilizador.CIDADE){
                 return(
                     <div className='col-12 showTable'>
@@ -492,7 +526,7 @@ async function criarColuna(){
                             <br></br>
                             <a>Rating: {data.RATING}</a>
                             <br></br>
-                            <a>Album: {data.ALBUM}</a>
+                            <img src={base64Image} alt={'logo192.png'}></img>
                         </div>
                         <div className='showTableButtons'>
                             <button className='btn btn-info' onClick={() => inserirEditarColuna(data)}>Editar</button>
@@ -557,7 +591,7 @@ async function criarColuna(){
         setTITULO(data.TITULO);
         setTEXTO(data.TEXTO);
         setRATING(data.RATING);
-        setALBUM(data.ALBUM);
+        setIMAGEM(data.IMAGEM);
 
         document.getElementById('editColumn').style.display = 'block';
         document.getElementById('insertColumn').style.display = 'none';

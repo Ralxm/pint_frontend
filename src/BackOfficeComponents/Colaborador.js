@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import '../Universal/index.css';
 import axios from 'axios';
+import authHeader from '../views/auth-header';
 
 export default function Cidade(){
     const url = "https://pint-backend-8vxk.onrender.com/colaborador/list";
@@ -65,7 +66,7 @@ export default function Cidade(){
         catch{
             console.log("Erro a ir buscar o token");
         }
-        axios.get(url, {headers: { 'Authorization' : 'Bearer ' + token } })
+        axios.get(url, authHeader())
         .then(res => {
             if(res.data.success === true){
                 const data = res.data.data;
@@ -307,7 +308,7 @@ export default function Cidade(){
             DATAREGISTO: DATAREGISTO,
             ULTIMOLOGIN:ULTIMOLOGIN,
         }
-        axios.put(urlEditar, datapost, {headers: { 'Authorization' : 'Bearer ' + token } } )
+        axios.put(urlEditar, datapost, authHeader())
         .then(res =>{
             if(res.data.success === true){
                 loadTables();
@@ -432,7 +433,7 @@ export default function Cidade(){
         })
 
         const urlApagarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/delete/' + colaboradorcargo;
-        await axios.put(urlApagarColaboradorCargo, {headers: { 'Authorization' : 'Bearer ' + token } }  )
+        await axios.put(urlApagarColaboradorCargo, authHeader())
         .then(res =>{
             if(res.data.success){
                 loadTables();

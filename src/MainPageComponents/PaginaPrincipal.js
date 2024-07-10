@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import '../Universal/index.css'
 import axios from 'axios';
 import Profile from './Profile'
+import {Buffer} from 'buffer'
 
 export default function Main(){
     const urlCategoria = "https://pint-backend-8vxk.onrender.com/categoria/";
@@ -260,18 +261,20 @@ export default function Main(){
                 if(data.aprovacao.APROVADA == 1){
                     const { categorium, espaco, evento, subcategorium } = data;
                     if(evento.IDEVENTO == 1){ //RETURN DE UM ESPAÇO POIS O EVENTO É O DEFAULT
+                        const base64 = Buffer.from(data.IMAGEM.data, "binary" ).toString("base64");
+                        const base64Image = 'data:image/jpeg;base64,' + base64;
                         return(
                             <div className='card mb-3 post' style={{cursor: 'pointer'}} onClick={() => window.location = "#/post/" + data.IDPUBLICACAO}>
                                 <div className="row g-0">
                                     <div className="col-md-4 post-img-box">
-                                        <img className="img-fluid rounded-start post-img" src={'./logo192.png'}></img>
+                                        <img className="img-fluid rounded-start post-img" src={base64Image}></img>
                                     </div>
                                     <div className="col-md-8 post-info-box position-relative">
                                         <div className="card-body">
                                             <h5 className="card-title">{data.TITULO}</h5>
                                             <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
                                             <p className="card-text">{data.TEXTO}</p>
-                                            <p className="card-text">{'id da cidade: ' + data.CIDADE}</p>
+                                            <p className="card-text">{'idade: ' + data.cidade.NOME}</p>
                                         </div>
                                         <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}}>{espaco.WEBSITE}</a>
                                     </div>
