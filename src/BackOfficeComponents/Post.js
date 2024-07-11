@@ -493,7 +493,7 @@ async function criarColuna(){
                     }
                 });
             }
-            const aprovada = aprov ? (aprov.APROVADA === 0 ? "Não aprovada" : "Aprovada") : "Unknown";
+            const aprovada = data.aprovacao.APROVADA ? (data.aprovacao.APROVADA === 0 ? "Não aprovada" : "Aprovada") : "Unknown";
             const base64 = Buffer.from(data.IMAGEM.data, "binary" ).toString("base64");
             const base64Image = 'data:image/jpeg;base64,' + base64;
             if(data.CIDADE == Utilizador.CIDADE){
@@ -501,32 +501,18 @@ async function criarColuna(){
                     <div className='col-12 showTable'>
                         <div className='showTableText'>
                             <a>ID Publicação: {data.IDPUBLICACAO}</a>
-                            <br></br>
-                            <a>Cidade: {data.CIDADE}</a>
-                            <br></br>
-                            <a>Aprovação: {data.APROVACAO + ' - ' + aprovada}</a>
-                            <br></br>
-                            <a>Colaborador: {data.COLABORADOR}</a>
-                            <br></br>
-                            <a>Categoria: {data.CATEGORIA}</a>
-                            <br></br>
-                            <a>Subcategoria: {data.SUBCATEGORIA}</a>
-                            <br></br>
-                            <a>Espaço: {data.ESPACO}</a>
-                            <br></br>
-                            <a>Evento: {data.EVENTO}</a>
-                            <br></br>
+                            <a>Aprovação{' ID: ' + data.APROVACAO + ' - ' + aprovada}</a>
+                            <a>Colaborador: {' ID: ' + data.COLABORADOR + ' - ' +  data.colaborador.NOME}</a>
+                            <a>Categoria: {data.categorium.NOME}</a>
+                            <a>Subcategoria: {data.subcategorium.NOME}</a>
+                            {data.EVENTO === 1 && <a>Espaço: {data.espaco.IDESPACO}</a>}
+                            {data.ESPACO === 1 && <a>Evento: {data.EVENTO}</a>}
                             <a>Data publicação: {data.DATAPUBLICACAO}</a>
-                            <br></br>
                             <a>Data ultima atividade: {data.DATAULTIMAATIVIDADE}</a>
-                            <br></br>
                             <a>Título: {data.TITULO}</a>
-                            <br></br>
                             <a>Texto: {data.TEXTO}</a>
-                            <br></br>
                             <a>Rating: {data.RATING}</a>
-                            <br></br>
-                            <img src={base64Image} alt={'logo192.png'}></img>
+                            <img src={base64Image} alt={'logo192.png'} style={{ maxWidth: '100%', height: 'auto', width: '40%' }}></img>
                         </div>
                         <div className='showTableButtons'>
                             <button className='btn btn-info' onClick={() => inserirEditarColuna(data)}>Editar</button>
