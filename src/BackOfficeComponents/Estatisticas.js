@@ -125,22 +125,28 @@ export default function Estatistica(){
                 <div className='col-lg-12 backoffice-option'>
                     Publicações Criadas nos Últimos 30 dias
                 </div>
-                <div className='col-lg-12 showTable-list' style={{marginBottom: '10px', overflowY: 'scroll', maxHeight: '40vh'}}>
+                <div className='col-lg-12 showTable-list' style={{overflowY: 'scroll', maxHeight: '40vh'}}>
                     <PublicacoesCriadasUltimos30Dias></PublicacoesCriadasUltimos30Dias>
                 </div>
                 <div className='col-lg-12 backoffice-option'>
                     Colaboradores Inativos
                 </div>
-                <div className='col-lg-12 showTable-list'>
+                <div className='col-lg-12 showTable-list' style={{ display: 'flex', flexWrap: 'wrap', overflowY: 'auto', maxHeight: '30vh'}}>
                     <ColaboradoresInativos></ColaboradoresInativos>
                 </div>
             </div>
-            <div className='col-4 side-bar' style={{marginLeft: "10px"}}>
-                <div className='col-lg-12 backoffice-option' style={{marginBottom: '10px', overflowY: 'scroll', maxHeight: '30vh'}}>
-                    Lista de Contas Inativas
+            <div className='col-5 side-bar' style={{marginLeft: "10px"}}>
+                <div className='col-lg-12 backoffice-option' style={{overflowY: 'scroll', maxHeight: '40vh'}}>
+                    Registos nos últimos 30 dias
                 </div>
-                <div className='col-lg-12 backoffice-option'>
-                    Logins Nos Últimos 30 dias
+                <div className='col-lg-12 showTable-list'>
+                    <Registos30Dias></Registos30Dias>
+                </div>
+                <div className='col-lg-12 backoffice-option' style={{overflowY: 'scroll', maxHeight: '30vh'}}>
+                    Número de publicações por colaborador
+                </div>
+                <div className='col-lg-12 showTable-list' style={{ display: 'flex', flexWrap: 'wrap', overflowY: 'auto', maxHeight: '30vh'}}>
+                    <PostsPorColaborador></PostsPorColaborador>
                 </div>
             </div>
         </div>
@@ -170,7 +176,7 @@ export default function Estatistica(){
             let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
             if(diffDays >= 15 && data.CIDADE === Utilizador.CIDADE){
                 return(
-                    <div className='col-12 showTable'>
+                    <div className='col-6 showTable'>
                         <div className='showTableText'>
                             <a>ID Colaborador: {data.IDCOLABORADOR}</a>
                             <a>Email: {data.EMAIL}</a>
@@ -206,7 +212,7 @@ export default function Estatistica(){
     
             let totalCount = 0;
             Post.forEach(post => {
-                if (post.CIDADE === Utilizador.CIDADE) {
+                if (post.CIDADE === Utilizador.CIDADE && post.aprovacao.APROVADA == 1) {
                     const postDate = post.DATAPUBLICACAO;
                     if (postsPerDay[postDate] !== undefined) {
                         postsPerDay[postDate]++;
@@ -242,6 +248,85 @@ export default function Estatistica(){
                 <p>Total de Publicações: {totalPosts}</p>
             </div>
         );
+    }
+
+    function Registos30Dias() {
+        const [chartData, setChartData] = useState([]);
+        const [totalRegistos, setTotalRegistos] = useState(0);
+    
+        useEffect(() => {
+            const today = new Date();
+            const past30Days = Array.from({ length: 30 }, (_, i) => {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                return date.toISOString().split('T')[0];
+            }).reverse();
+    
+            const registosPerDay = past30Days.reduce((acc, date) => {
+                acc[date] = 0;
+                return acc;
+            }, {});
+    
+            let totalCount = 0;
+            Colaborador.forEach(colaborador => {
+                if (colaborador.CIDADE === Utilizador.CIDADE) {
+                    const registoDate = colaborador.DATAREGISTO.split('T')[0];
+                    if (registosPerDay[registoDate] !== undefined) {
+                        registosPerDay[registoDate]++;
+                        totalCount++;
+                    }
+                }
+            });
+    
+            const formattedData = Object.keys(registosPerDay).map(date => ({
+                date,
+                count: registosPerDay[date]
+            }));
+    
+            setChartData(formattedData);
+            setTotalRegistos(totalCount);
+        }, [Colaborador, Utilizador.CIDADE]);
+    
+        return (
+            <div>
+                <LineChart
+                    width={600}
+                    height={300}
+                    data={chartData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="count" stroke="#8884d8" activeDot={{ r: 8 }} />
+                </LineChart>
+                <p>Total de Registos: {totalRegistos}</p>
+            </div>
+        );
+    }
+
+    function PostsPorColaborador(){
+        return Colaborador.map((colaborador, index) =>{
+            let count = 0;
+            Post.map((post, index2) =>{
+                if(post.COLABORADOR == colaborador.IDCOLABORADOR){
+                    count++;
+                }
+            })
+            console.log(count + ' ' + colaborador.NOME)
+            return(
+                <div className='col-6 showTable'>
+                    <div className='showTableText'>
+                        <a>ID Colaborador: {colaborador.IDCOLABORADOR}</a>
+                        <a>Email: {colaborador.EMAIL}</a>
+                        <a>Nome: {colaborador.NOME}</a>
+                        <a>Publições: {count}</a>
+                    </div>
+                </div>
+            )
+        })
     }
 }
 

@@ -263,7 +263,7 @@ export default function Cidade(){
             alert('Erro: asd' + error);
         })
 
-        const urlCriarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/create'
+        /*const urlCriarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/create'
         NomeCargo.map((data) =>{
             if(data.NOME == CARGO){
                 cargo = data.IDCARGO;
@@ -284,7 +284,7 @@ export default function Cidade(){
         })
         .catch(error =>{
             alert('Erro: ' + error);
-        })
+        })*/
     }
 
     function editarColuna(){
@@ -414,45 +414,54 @@ export default function Cidade(){
     }
 
     async function ApagarColuna(data){
-        let token;
         try{
-            let user = localStorage.getItem('user');
-            let userData = JSON.parse(user);
-            token = userData.token;
+            let token;
+            try{
+                let user = localStorage.getItem('user');
+                let userData = JSON.parse(user);
+                token = userData.token;
+            }
+            catch{
+                console.log("Erro a ir buscar o token");
+            }
+            setIDCOLABORADOR(data.IDCOLABORADOR);
+
+            let colaboradorcargo;
+            let colaborador;
+            ColaboradorCargo.map((data2) =>{
+                if(data2.IDCOLABORADOR == data.IDCOLABORADOR){
+                    colaboradorcargo = data2.IDCOLABORADORCARGO;
+                    colaborador = data.IDCOLABORADOR;
+                }
+            })
+    
+            const urlApagarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/delete/' + colaboradorcargo;
+            await axios.put(urlApagarColaboradorCargo)
+            .then(res =>{
+                if(res.data.success){
+                    loadTables();
+                }
+            })
+            .catch(error => {
+                alert("Erro asdasd" + error)
+            });
+            
+            console.log(data)
+            const urlApagar = 'https://pint-backend-8vxk.onrender.com/colaborador/delete/' + data.IDCOLABORADOR;
+            console.log(urlApagar)
+            await axios.put(urlApagar, null, authHeader())
+            .then(res =>{
+                if(res.data.success){
+                    loadTables();
+                }
+            })
+            .catch(error => {
+                console.log("Erro a apagar o colaborador")
+            });
         }
         catch{
-            console.log("Erro a ir buscar o token");
+            console.log('erro');
         }
-        setIDCOLABORADOR(data.IDCOLABORADOR);
-
-        let colaboradorcargo;
-        ColaboradorCargo.map((data2) =>{
-            if(data2.IDCOLABORADOR == data.IDCOLABORADOR){
-                colaboradorcargo = data2.IDCOLABORADORCARGO;
-            }
-        })
-
-        const urlApagarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/delete/' + colaboradorcargo;
-        await axios.put(urlApagarColaboradorCargo, authHeader())
-        .then(res =>{
-            if(res.data.success){
-                loadTables();
-            }
-        })
-        .catch(error => {
-            alert("Erro asdasd" + error)
-        });
-
-        const urlApagar = 'https://pint-backend-8vxk.onrender.com/colaborador/delete/' + data.IDCOLABORADOR;
-        await axios.put(urlApagar)
-        .then(res =>{
-            if(res.data.success){
-                loadTables();
-            }
-        })
-        .catch(error => {
-            alert("Erro " + error)
-        });
     }
 
     function inserirEditarColuna(data){

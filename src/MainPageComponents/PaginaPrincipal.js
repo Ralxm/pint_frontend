@@ -3,6 +3,7 @@ import '../Universal/index.css'
 import axios from 'axios';
 import Profile from './Profile'
 import {Buffer} from 'buffer'
+import authService from '../views/auth-service';
 
 export default function Main(){
     const urlCategoria = "https://pint-backend-8vxk.onrender.com/categoria/";
@@ -22,6 +23,8 @@ export default function Main(){
     const [Colaborador, setColaborador] = useState([]);
 
     const [Utilizador, setUtilizador] = useState([]);
+
+    const [Filtros, setFiltros] = useState([])
 
     useEffect(() =>{
         document.title = 'Página Principal';
@@ -47,6 +50,7 @@ export default function Main(){
             }
             else {
                 alert("Erro Web Service");
+                authService.logout();
             }
         })
         .catch(error => {
@@ -86,6 +90,7 @@ export default function Main(){
             if (res.data.success === true){
                 const data = res.data.data;
                 setSubcategoria(data);
+                setFiltros(data);
             }
             else {
                 alert("Erro Web Service");
@@ -138,6 +143,23 @@ export default function Main(){
         })
     }
 
+    function HandleFiltros(){
+        let arr = []
+        let count = 0;
+        Subcategoria.map((data, index) => {
+            if(document.getElementById('subfiltro-' + data.NOME + '-' + (index + 1)).checked == true){
+                count++;
+                arr.push(data);
+            }
+        })
+        if(count == 0){
+            setFiltros(Subcategoria);
+        }
+        else{
+            setFiltros(arr);
+        }
+    }
+
     function Filtro(){
             return (
                 <div className='col-lg-3 d-md-none d-sm-none d-lg-block d-md-block d-none d-sm-block filtro-box'>
@@ -148,7 +170,7 @@ export default function Main(){
                         <span>Filtros</span>
                     </div>
                     <div className='col-lg-2 filtro-text filtro-submit'>
-                        <input type='submit' value='Filtrar'></input>
+                        <input type='submit' value='Filtrar' onClick={HandleFiltros}></input>
                     </div>
                     <div className='col-lg-1 filtro-text filtro-title'>
                         &nbsp;
@@ -225,65 +247,71 @@ export default function Main(){
             })    
         }
         
-        function check_all(categoria, subcategorias, ind){
+        function check_all(categoria, subcategorias, ind) {
             let ids = [];
-            subcategorias.map((data2, index) => {
-                if(categoria.IDCATEGORIA == data2.IDCATEGORIA){
+            subcategorias.forEach((data2, index) => {
+                if (categoria.IDCATEGORIA === data2.IDCATEGORIA) {
                     ids.push('subfiltro-' + data2.NOME + '-' + (index + 1))
                 }
-            })
+            });
 
-            let count = ids.length;
-            
-            if(count == 0){
+            let allChecked = ids.every(id => document.getElementById(id).checked);
+            let anyChecked = ids.some(id => document.getElementById(id).checked);
+
+            if (!anyChecked) {
                 document.getElementById('input-' + (ind)).checked = false;
-                checked = 0;
-            }
-            if(count > 0){
+            } else if (allChecked) {
                 document.getElementById('input-' + (ind)).checked = true;
-                checked = 1;
+            } else {
+                document.getElementById('input-' + (ind)).checked = false;
             }
         }
     }
 
-    function PostBox(){
+    function PostBox({ Filtros }) {
         return(
             <div className='col-6 posts-box'>
-                <Post></Post>
+                <Post Filtros={Filtros}></Post>
             </div>
         )
     }
 
-    function Post() {
+    function Post({ Filtros }) {
+        useEffect(() => {
+            // This ensures that the component re-renders when Filtros changes
+        }, [Filtros]);
+    
         return Publicacao.map((data, index) => {
             if(Publicacao && data.CIDADE == data.colaborador.CIDADE && data.CIDADE == Utilizador.CIDADE){
                 console.log(data);
                 if(data.aprovacao.APROVADA == 1){
-                    const { categorium, espaco, evento, subcategorium } = data;
-                    if(evento.IDEVENTO == 1){ //RETURN DE UM ESPAÇO POIS O EVENTO É O DEFAULT
-                        const base64 = Buffer.from(data.IMAGEM.data, "binary" ).toString("base64");
-                        const base64Image = 'data:image/jpeg;base64,' + base64;
-                        return(
-                            <div className='card mb-3 post' style={{cursor: 'pointer'}} onClick={() => window.location = "#/post/" + data.IDPUBLICACAO}>
-                                <div className="row g-0">
-                                    <div className="col-md-4 post-img-box">
-                                        <img className="img-fluid rounded-start post-img" src={base64Image}></img>
-                                    </div>
-                                    <div className="col-md-8 post-info-box position-relative">
-                                        <div className="card-body">
-                                            <h5 className="card-title">{data.TITULO}</h5>
-                                            <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
-                                            <p className="card-text">{data.TEXTO}</p>
-                                            <p className="card-text">{'idade: ' + data.cidade.NOME}</p>
+                    if(Filtros.some(data2 => data2.IDSUBCATEGORIA == data.SUBCATEGORIA)){
+                        const { categorium, espaco, evento, subcategorium } = data;
+                        if(evento.IDEVENTO == 1){ //RETURN DE UM ESPAÇO POIS O EVENTO É O DEFAULT
+                            const base64 = Buffer.from(data.IMAGEM.data, "binary" ).toString("base64");
+                            const base64Image = 'data:image/jpeg;base64,' + base64;
+                            return(
+                                <div className='card mb-3 post' style={{cursor: 'pointer'}} onClick={() => window.location = "#/post/" + data.IDPUBLICACAO}>
+                                    <div className="row g-0">
+                                        <div className="col-md-4 post-img-box">
+                                            <img className="img-fluid rounded-start post-img" src={base64Image}></img>
                                         </div>
-                                        <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}}>{espaco.WEBSITE}</a>
+                                        <div className="col-md-8 post-info-box position-relative">
+                                            <div className="card-body">
+                                                <h5 className="card-title">{data.TITULO}</h5>
+                                                <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
+                                                <p className="card-text">{data.TEXTO}</p>
+                                                <p className="card-text">{'cidade: ' + data.cidade.NOME}</p>
+                                            </div>
+                                            <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}} href={espaco.WEBSITE} target='_blank'>{espaco.WEBSITE}</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    }
-                    else{ //RETURN DE UM EVENTO POIS O ESPAÇO É O DEFAULT
-    
+                            )
+                        }
+                        else{ //RETURN DE UM EVENTO POIS O ESPAÇO É O DEFAULT
+        
+                        }
                     }
             } 
             }
@@ -295,17 +323,19 @@ export default function Main(){
             if(data.aprovacao.APROVADA == 0){
                 return (
                     <div className='container-fluid col-lg-12 notification'>
-                    <div className='col-lg-12 notification-title'>
-                        <h4>{data.TITULO}</h4>
+                        <a href={window.location.pathname + '#/post/' + data.IDPUBLICACAO} target='_blank' style={{cursor: 'pointer', textDecoration: 'none', color: 'inherit'}}>
+                            <div className='col-lg-12 notification-title'>
+                                <h4>{data.TITULO}</h4>
+                            </div>
+                            <div className='col-lg-12 notification-text'>
+                                <p>{data.TEXTO}</p>
+                            </div>
+                        </a>
+                        <div className='col-lg-12 notification-buttons'>
+                            <Aceitar pub={data}></Aceitar>
+                            <Rejeitar pub={data}></Rejeitar>
+                        </div>
                     </div>
-                    <div className='col-lg-12 notification-text'>
-                        <p>{data.TEXTO}</p>
-                    </div>
-                    <div className='col-lg-12 notification-buttons'>
-                        <Aceitar pub={data}></Aceitar>
-                        <Rejeitar pub={data}></Rejeitar>
-                    </div>
-                </div>
                 )
             }
         })
@@ -403,6 +433,9 @@ export default function Main(){
     function Notifications(){
         return(
             <div className='container-fluid notifications-box'>
+                <div className='col-12'>
+                    Publicações por aprovar
+                </div>
                 <Notification></Notification>
             </div>
         )
@@ -411,7 +444,7 @@ export default function Main(){
     return(
         <div className='d-flex'>
             <Filtro></Filtro>
-            <PostBox></PostBox>
+            <PostBox Filtros={Filtros}></PostBox>
             <div className="col-lg-3 pe-0 g-0">
                 <Profile></Profile>
                 <Notifications></Notifications>

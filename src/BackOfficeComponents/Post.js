@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Buffer } from 'buffer';
 import '../Universal/index.css';
 import axios from 'axios';
+import authHeader from '../views/auth-header';
 
 export default function Post(){
     const url = "https://pint-backend-8vxk.onrender.com/post/list";
@@ -62,16 +63,7 @@ export default function Post(){
             alert("Erro: fase1" + error)
         })
 
-        let token;
-        try{
-            let user = localStorage.getItem('user');
-            let userData = JSON.parse(user);
-            token = userData.token;
-        }
-        catch{
-            console.log("Erro a ir buscar o token");
-        }
-        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/list', {headers: { 'Authorization' : 'Bearer ' + token }})
+        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/list', authHeader())
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -137,32 +129,28 @@ export default function Post(){
         }
     }, [CATEGORIA]);
 
+    useEffect(()=>{
+        if(Utilizador){
+            axios.get(url + 'ByCidade/' + Utilizador.CIDADE)
+            .then(res => {
+                if(res.data.success === true){
+                    const data = res.data.data;
+                    setPost(data);
+                }
+                else{
+                    alert("Erro Web Service!");
+                }
+            })
+            .catch(error => {
+                console.log("Erro ou a carregar");
+            }); 
+        }
+    }, [Utilizador])
+
     function loadTables(){
         let id = JSON.parse(localStorage.getItem('id'));
-        let token;
-        try{
-            let user = localStorage.getItem('user');
-            let userData = JSON.parse(user);
-            token = userData.token;
-        }
-        catch{
-            console.log("Erro a ir buscar o token");
-        }
-        axios.get(url)
-        .then(res => {
-            if(res.data.success === true){
-                const data = res.data.data;
-                setPost(data);
-            }
-            else{
-                alert("Erro Web Service!");
-            }
-        })
-        .catch(error => {
-            alert("Erro fase4" + error);
-        }); 
 
-        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/get/' + id, {headers: { 'Authorization' : 'Bearer ' + token } })
+        axios.get('https://pint-backend-8vxk.onrender.com/colaborador/get/' + id, authHeader())
         .then(res => {
             if (res.data.success === true){
                 const data = res.data.data;
@@ -388,34 +376,6 @@ async function criarColuna(){
 
         setAPROVACAO(idAprovacao);
 
-        /*const datapostPost = {
-            CIDADE: idCidade,
-            APROVACAO: idAprovacao,
-            COLABORADOR: idColaborador,
-            CATEGORIA: idCategoria,
-            SUBCATEGORIA: idSubcategoria,
-            ESPACO: idEspaco,
-            EVENTO: idEvento,
-            DATAPUBLICACAO: DATAPUBLICACAO,
-            DATAULTIMAATIVIDADE: DATAULTIMAATIVIDADE,
-            TITULO: TITULO,
-            TEXTO: TEXTO,
-            RATING: RATING,
-            IMAGEM: IMAGEM,
-        };*/
-        console.log('ID Cidade:', idCidade);
-        console.log('ID Colaborador:', idColaborador);
-        console.log('ID Categoria:', idCategoria);
-        console.log('ID Subcategoria:', idSubcategoria);
-        console.log('ID Espaco:', idEspaco);
-        console.log('ID Evento:', idEvento);
-        console.log('ID Aprovacao:', idAprovacao);
-        console.log('DATAPUBLICACAO:', DATAPUBLICACAO);
-        console.log('DATAULTIMAATIVIDADE:', DATAULTIMAATIVIDADE);
-        console.log('TITULO:', TITULO);
-        console.log('TEXTO:', TEXTO);
-        console.log('RATING:', RATING);
-        console.log('IMAGEM:', IMAGEM);
         const datapostPost = new FormData();
         datapostPost.append('CIDADE', idCidade);
         datapostPost.append('APROVACAO', idAprovacao);
@@ -429,9 +389,12 @@ async function criarColuna(){
         datapostPost.append('TITULO', TITULO);
         datapostPost.append('TEXTO', TEXTO);
         datapostPost.append('RATING', RATING);
-        datapostPost.append('IMAGEM', IMAGEM);
+        if(IMAGEM != ""){
+            datapostPost.append('IMAGEM', IMAGEM);
+        }
+        
 
-        axios.post(urlCriarPost, datapostPost, {headers: { 'Content-Type': 'multipart/form-data' }, })
+        axios.post(urlCriarPost, datapostPost, {headers: { 'Content-Type': 'multipart/form-data' }})
         .then(res =>{
             if(res.data.success === true){
                 loadTables();
@@ -448,6 +411,7 @@ async function criarColuna(){
     catch{
         alert('something')
     }
+    loadTables();
     }
 
     function editarColuna(){
@@ -484,19 +448,15 @@ async function criarColuna(){
 
     function ListTables(){
         return Post.map((data, index) => {
-            console.log(data);
-            let aprov;
-            if (Aprovacao && Array.isArray(Aprovacao)) {
-                Aprovacao.forEach(data2 => {
-                    if (data2.IDAPROVACAO == data.APROVACAO) {
-                        aprov = data2;
-                    }
-                });
+            let aprovada;
+            if(data.aprovacao.APROVADA == 1){
+                aprovada = 'Aprovada';
             }
-            const aprovada = data.aprovacao.APROVADA ? (data.aprovacao.APROVADA === 0 ? "Não aprovada" : "Aprovada") : "Unknown";
+            else{
+                aprovada = 'Não Aprovada';
+            }
             const base64 = Buffer.from(data.IMAGEM.data, "binary" ).toString("base64");
             const base64Image = 'data:image/jpeg;base64,' + base64;
-            if(data.CIDADE == Utilizador.CIDADE){
                 return(
                     <div className='col-12 showTable'>
                         <div className='showTableText'>
@@ -520,7 +480,6 @@ async function criarColuna(){
                         </div>
                     </div>
                 )
-            }
         })
     }
 
@@ -554,7 +513,7 @@ async function criarColuna(){
         axios.put(urlApagar)
         .then(res =>{
             if(res.data.success){
-                alert('Audit log com ID: ' + {IDPUBLICACAO} + ' apagado com sucesso');
+                alert('Publicação: ' + {IDPUBLICACAO} + ' apagado com sucesso');
                 loadTables();
             }
         })
