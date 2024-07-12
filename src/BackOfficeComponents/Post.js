@@ -491,7 +491,16 @@ async function criarColuna(){
 
     function ListColaboradores(){
         return Colaborador.map((data, index) =>{
-            return <option key={index} value ={data.COLABORADOR}>{data.NOME}</option>
+            let cidade;
+            Cidade.map((data2) =>{
+                if(data2.NOME == CIDADE){
+                    cidade = data2.IDCIDADE
+                }
+            })
+            if(CIDADE && data.CIDADE == cidade){
+                return <option key={index} value ={data.COLABORADOR}>{data.NOME}</option>
+            }
+            return null;
         })
     }
 
