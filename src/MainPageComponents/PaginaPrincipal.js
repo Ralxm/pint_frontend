@@ -301,7 +301,6 @@ export default function Main(){
                                                 <h5 className="card-title">{data.TITULO}</h5>
                                                 <p className="card-text">{categorium.NOME + ' - ' + subcategorium.NOME}</p>
                                                 <p className="card-text">{data.TEXTO}</p>
-                                                <p className="card-text">{'cidade: ' + data.cidade.NOME}</p>
                                             </div>
                                             <a className="card-text post-website position-absolute bottom-0" style={{marginLeft: '10px'}} href={espaco.WEBSITE} target='_blank'>{espaco.WEBSITE}</a>
                                         </div>
@@ -320,7 +319,7 @@ export default function Main(){
 
     function Notification(){
         return Publicacao.map((data, index) => {
-            if(data.aprovacao.APROVADA == 0){
+            if(data.aprovacao.APROVADA == 0 && data.CIDADE == Utilizador.CIDADE){
                 return (
                     <div className='container-fluid col-lg-12 notification'>
                         <a href={window.location.pathname + '#/post/' + data.IDPUBLICACAO} target='_blank' style={{cursor: 'pointer', textDecoration: 'none', color: 'inherit'}}>
