@@ -123,7 +123,7 @@ export default function Subcategoria(){
     )
 
     function criarColuna(){
-        const urlCriar = 'https://pint-backend-8vxk.onrender.com/subcategoria/update' + IDSUBCATEGORIA;
+        const urlCriar = 'https://pint-backend-8vxk.onrender.com/subcategoria/create'
         const datapost = {
             NOME: NOME,
             DESCRICAO: DESCRICAO,
