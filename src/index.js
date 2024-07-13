@@ -32,13 +32,13 @@ const router = createHashRouter([
     }
 ]);
 
-/*ReactDOM.createRoot(document.getElementById('raiz')).render(
-    <React.StrictMode>
+ReactDOM.createRoot(document.getElementById('raiz')).render(
+    //<React.StrictMode>
         <RouterProvider router={router}></RouterProvider>
-    </React.StrictMode> 
-)*/
+    //</React.StrictMode> 
+)
 
-ReactDOM.render(<MainPage />, document.getElementById('raiz'));
+//ReactDOM.render(<MainPage />, document.getElementById('raiz'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
