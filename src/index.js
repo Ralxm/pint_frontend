@@ -5,7 +5,6 @@ import MainPage from './Universal/MainPage'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createHashRouter, HashRouter, RouterProvider } from 'react-router-dom';
-import { HashRouter } from 'react-router-dom';
 import AuthService from "./views/auth-service";
 import authService from './views/auth-service';
 
