@@ -334,13 +334,13 @@ footer{
 }
 
 .notification-title{
-    height: 25%;
+    min-height: 25%;
 }
 
 .notification-text{
     border-top: 2px solid #DEE2E6;
     border-bottom: 2px solid #DEE2E6;
-    height: 50%;
+    min-height: 50%;
 }
 
 .notification-buttons{
