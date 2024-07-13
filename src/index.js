@@ -35,9 +35,8 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById('raiz')).render(
     <BrowserRouter>
-        <RouterProvider router={router}></RouterProvider>
+        <MainPage></MainPage>
     </BrowserRouter>
-    //</React.StrictMode> 
 )
 
 //ReactDOM.render(<MainPage />, document.getElementById('raiz'));
