@@ -14,6 +14,7 @@ import Post from '../PostComponents/Post'
 export default function MainPage() {
         return (
             <div>
+            <HashRouter>
                 <NavigationBar></NavigationBar> 
                     <Routes>
                         <Route path='/' element={<LoginPage></LoginPage>}>
@@ -26,6 +27,7 @@ export default function MainPage() {
                         </Route>
                     </Routes>
                 <Footer></Footer>
+            </HashRouter>
             </div>
         )
 }
