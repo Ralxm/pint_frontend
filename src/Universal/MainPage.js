@@ -9,6 +9,7 @@ import authService from "../views/auth-service";
 import { useNavigate } from "react-router-dom";
 import Main from '../MainPageComponents/PaginaPrincipal'
 import Post from '../PostComponents/Post'
+import { HashRouter } from "react-router-dom";
 
 
 export default function MainPage() {
