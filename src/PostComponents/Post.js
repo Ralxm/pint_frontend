@@ -56,7 +56,7 @@ export default function Post() {
                     <div className='col-10 main-post-box'>
                         <div className='post-nav-bar'>
                             <div className='post-main-info col-11'>
-                                <a>{Publicacao[0].TITULO}&nbsp;&nbsp;</a>
+                                <a>{Publicacao[0].TITULO}&nbsp;</a>
                                 <a>&nbsp;- Avaliação: {Publicacao[0].RATING}</a>
                                 </div>
                                     <div style={{backgroundColor: 'red', marginLeft: '-20px', marginRight: '10px', color: 'white'}}>
