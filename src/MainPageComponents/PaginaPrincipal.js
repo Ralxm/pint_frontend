@@ -278,7 +278,7 @@ export default function Main(){
 
     function Post({ Filtros }) {
         useEffect(() => {
-            // This ensures that the component re-renders when Filtros changes
+            // Quando o filtro é alterado, o component Post da re-render
         }, [Filtros]);
     
         return Publicacao.map((data, index) => {

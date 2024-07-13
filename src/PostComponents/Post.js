@@ -89,7 +89,8 @@ export default function Post() {
                                             <a style={{ color: "rgba(0,0,0,0.5)" }}>{'Coordenadas: ' + Publicacao[0].espaco.COORDENADAS}</a>
                                         </div>
                                         <div className='post-subcategory-info col-12'>
-                                            <a style={{ color: "rgba(0,0,0,0.5)" }}>{'Website: ' + Publicacao[0].espaco.WEBSITE}</a>
+                                            <a style={{ color: "rgba(0,0,0,0.5)" }}>Website:&nbsp;</a>
+                                            <a style={{ color: "rgba(0,0,0,0.5)" }} href={Publicacao[0].espaco.WEBSITE} target='_blank'>{Publicacao[0].espaco.WEBSITE}</a>
                                             <div className='row col-12 imagem-post-info d-flex align-items-center justify-content-center'>
                                                 <img src={base64Image} className='img-fluid rounded-start' alt="Não foi possível carregar a imagem" style={{ maxWidth: '100%', height: 'auto', width: '40%' }} />
                                             </div>
@@ -98,7 +99,7 @@ export default function Post() {
                                     
                                 ) : (
                                     <div className='row col-12'>
-                                        {/* Additional content for other cases */}
+
                                     </div>
                                 )
                         }

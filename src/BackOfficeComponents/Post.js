@@ -295,7 +295,6 @@ export default function Post(){
                             <button onClick={criarColuna} className='btn btn-info'>Inserir</button>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <div className='side-bar col-4' style={{marginLeft: "10px", display: 'none'}} id={'editColumn'}>
@@ -307,6 +306,97 @@ export default function Post(){
                 </div>
                 <div className='col-lg-12 input-create-thing-big-box'>
                     <div className='input-create-thing'>
+                    <div className='input-group'>
+                            <label>Cidade</label>
+                            <select id="inputState" className="input-group-select" value = {CIDADE} onChange={(value) => setCIDADE(value.target.value)}>
+                                        <option defaultValue>Selecione</option>
+                                        <ListCidades></ListCidades>
+                            </select>
+                        </div>
+                        <div className='input-group'>
+                            <label>Colaborador</label>
+                            <select id="inputState" className="input-group-select" value = {COLABORADOR} onChange={(value) => setCOLABORADOR(value.target.value)}>
+                                        <option defaultValue>Selecione</option>
+                                        <ListColaboradores></ListColaboradores>
+                            </select>
+                        </div>
+                        <div className='input-group'>
+                            <label>Categoria</label>
+                            <select id="inputState" className="input-group-select" value={CATEGORIA} onChange={(value) => setCATEGORIA(value.target.value)}>
+                                <option defaultValue>Selecione</option>
+                                <ListCategorias></ListCategorias>
+                            </select>
+                        </div>
+                        <div className='input-group'>
+                            <label>Subcategoria</label>
+                            <select id="inputState" className="input-group-select" value = {SUBCATEGORIA} onChange={(value) => setSUBCATEGORIA(value.target.value)}>
+                                <option defaultValue>Selecione</option>
+                                <ListSubcategorias></ListSubcategorias>
+                            </select>
+                        </div>
+                        <div>
+                            <input type={'checkbox'} className='form-check-input' id='checkEspaco' onClick={() => atualizarCheck('checkEspaco')}></input>
+                            <label className='form-check-label' for='checkEspaco'>Espaço</label>
+                            <input type={'checkbox'} className='form-check-input' id='checkEvento' onClick={()=> atualizarCheck('checkEvento')}></input>
+                            <label className='form-check-label' for="checkEvento">Evento</label>
+                        </div>
+                        <div id='espacoChecked' className='input-group-special'>
+                            <div className='input-group'>
+                                <label>Coordenadas</label>
+                                <input id='descricao' onChange={(value)=> setCOORDENADAS(value.target.value)}></input>
+                            </div>
+                            <div className='input-group'>
+                                <label>Website</label>
+                                <input id='descricao' onChange={(value)=> setWEBSITE(value.target.value)}></input>
+                            </div>
+                        </div>
+                        <div id='eventoChecked' className='input-group-special' style={{diplay:'none'}}>
+                            <div className='input-group'>
+                                <label>Nome do Questionário</label>
+                                <input id='descricao' onChange={(value)=> setNOMEQUESTIONARIO(value.target.value)}></input>
+                            </div>
+                            {options.map((option, index) => (
+                                <div className='input-group' key={index}>
+                                    <label>{option.label}:</label>
+                                    <input id='descricao' value={option.value} onChange={(value) => handleInputChange(index, value)}></input>
+                                </div>
+                            ))}
+                            <div className='input-group'>
+                                <button style={{width:'80%', marginLeft:'10%'}} className='btn btn-outline-info' onClick={addOption} disabled={options.length >= 4}>Adicionar opção</button>
+                            </div>
+                            {options.length > 2 && (
+                                <div className='input-group'>
+                                    <button style={{ width: '80%', marginLeft: '10%' }} className='btn btn-outline-danger' onClick={removeOption}>Remover última opção</button>
+                                </div>
+                            )}
+                        </div>
+                        <div className='input-group'>
+                            <label>Data de publicação</label>
+                            <input id='descricao' onChange={(value)=> setDATAPUBLICACAO(value.target.value)} type={'date'}></input>
+                        </div>
+                        <div className='input-group'>
+                            <label>Data da ultima atividade</label>
+                            <input id='descricao' onChange={(value)=> setDATAULTIMAATIVIDADE(value.target.value)} type={'date'}></input>
+                        </div>
+                        <div className='input-group'>
+                            <label>Título</label>
+                            <input id='descricao' onChange={(value)=> setTITULO(value.target.value)}></input>
+                        </div>
+                        <div className='input-group'>
+                            <label>Texto</label>
+                            <input id='descricao' onChange={(value)=> setTEXTO(value.target.value)}></input>
+                        </div>
+                        <div className='input-group'>
+                            <label>Rating</label>
+                            <input id='descricao' onChange={(value)=> setRATING(value.target.value)}></input>
+                        </div>
+                        <div className='input-group'>
+                            <label>Imagem</label>
+                            <input id='descricao' type='file' onChange={(value)=> setIMAGEM(value.target.files[0])}></input>
+                        </div>
+                        <div>
+                            <button onClick={editarColuna} className='btn btn-info'>Editar</button>
+                        </div>
                     </div>
                 </div>
             </div>

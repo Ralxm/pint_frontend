@@ -30,8 +30,13 @@ export default function LoginInput(){
                     setloading(false);
                 }
                 else{
-                    logLogin(EMAIL)
-                    navigate('mainpage');
+                    if(res.cargo == 1){
+                        logLogin(EMAIL)
+                        navigate('mainpage');
+                    }
+                    else{
+                        alert('Website não está disponibilizado para utilizadores normais')
+                    }
                 }
             })
             .catch(err => {
