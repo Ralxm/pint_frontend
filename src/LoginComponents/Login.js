@@ -30,6 +30,7 @@ export default function LoginInput(){
                     setloading(false);
                 }
                 else{
+                    console.log(res.cargo);
                     if(res.cargo == 1){
                         logLogin(EMAIL)
                         navigate('mainpage');

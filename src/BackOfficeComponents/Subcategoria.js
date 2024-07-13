@@ -114,7 +114,7 @@ export default function Subcategoria(){
                             </select>
                         </div>
                         <div>
-                            <button onClick={criarColuna} className='btn btn-info'>Editar</button>
+                            <button onClick={editarColuna} className='btn btn-info'>Editar</button>
                         </div>
                     </div>
                 </div>
