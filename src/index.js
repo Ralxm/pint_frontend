@@ -5,6 +5,7 @@ import MainPage from './Universal/MainPage'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import AuthService from "./views/auth-service";
 import authService from './views/auth-service';
 
@@ -33,8 +34,9 @@ const router = createHashRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('raiz')).render(
-    //<React.StrictMode>
+    <BrowserRouter>
         <RouterProvider router={router}></RouterProvider>
+    </BrowserRouter>
     //</React.StrictMode> 
 )
 

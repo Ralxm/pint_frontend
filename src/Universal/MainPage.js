@@ -3,19 +3,17 @@ import LoginInput from "../LoginComponents/Login";
 import Footer from './Footer';
 import React, {useEffect} from 'react'
 import ImagemLogin from "../LoginComponents/ImagemLogin";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import BackOffice from "../BackOffice/BackOffice";
 import authService from "../views/auth-service";
 import { useNavigate } from "react-router-dom";
 import Main from '../MainPageComponents/PaginaPrincipal'
 import Post from '../PostComponents/Post'
-import { HashRouter } from "react-router-dom";
 
 
 export default function MainPage() {
         return (
             <div>
-            <HashRouter basename="/">
                 <NavigationBar></NavigationBar> 
                     <Routes>
                         <Route path='/' element={<LoginPage></LoginPage>}>
@@ -28,7 +26,6 @@ export default function MainPage() {
                         </Route>
                     </Routes>
                 <Footer></Footer>
-            </HashRouter>
             </div>
         )
 }
