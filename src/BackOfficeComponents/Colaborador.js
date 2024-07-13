@@ -260,10 +260,10 @@ export default function Cidade(){
             }
         })
         .catch(error =>{
-            alert('Erro: asd' + error);
+            console.log('Erro: asd' + error);
         })
 
-        /*const urlCriarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/create'
+        const urlCriarColaboradorCargo = 'https://pint-backend-8vxk.onrender.com/colaborador_cargo/create'
         NomeCargo.map((data) =>{
             if(data.NOME == CARGO){
                 cargo = data.IDCARGO;
@@ -284,7 +284,7 @@ export default function Cidade(){
         })
         .catch(error =>{
             alert('Erro: ' + error);
-        })*/
+        })
     }
 
     function editarColuna(){
@@ -443,7 +443,7 @@ export default function Cidade(){
                 }
             })
             .catch(error => {
-                alert("Erro asdasd" + error)
+                console.log("Erro asdasd" + error)
             });
             
             console.log(data)
