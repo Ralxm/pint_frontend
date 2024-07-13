@@ -15,7 +15,7 @@ import { HashRouter } from "react-router-dom";
 export default function MainPage() {
         return (
             <div>
-            <HashRouter>
+            <HashRouter basename="/">
                 <NavigationBar></NavigationBar> 
                     <Routes>
                         <Route path='/' element={<LoginPage></LoginPage>}>
