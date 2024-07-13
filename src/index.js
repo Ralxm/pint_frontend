@@ -4,8 +4,8 @@ import './index.css';
 import MainPage from './Universal/MainPage'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
-import { createHashRouter, RouterProvider } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { createHashRouter, HashRouter, RouterProvider } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import AuthService from "./views/auth-service";
 import authService from './views/auth-service';
 
@@ -34,9 +34,9 @@ const router = createHashRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('raiz')).render(
-    <BrowserRouter>
+    <HashRouter>
         <MainPage></MainPage>
-    </BrowserRouter>
+    </HashRouter>
 )
 
 //ReactDOM.render(<MainPage />, document.getElementById('raiz'));
